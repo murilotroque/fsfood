@@ -1,0 +1,3888 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FoodRadar · Cardápios completos e preços transparentes</title>
+<meta name="description" content="Descubra restaurantes perto de você com o cardápio inteiro e o preço de cada prato, antes de sair de casa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* ============================================================
+   FoodRadar — design system
+   ============================================================ */
+/* ------------------------------------------------------------
+   Tema
+   O padrão segue o sistema (prefers-color-scheme). O botão do
+   header grava uma escolha explícita em data-theme, que ganha
+   do sistema nos dois sentidos.
+   Regra: toda cor nasce aqui no :root claro; os blocos escuros
+   só REDEFINEM tokens, nunca introduzem cor nova.
+   ------------------------------------------------------------ */
+:root{
+  color-scheme:light;
+
+  --brand:#2563eb;
+  --brand-dark:#1d4ed8;
+  --brand-soft:#eef3ff;
+  --on-brand:#ffffff;
+  --brand-2:#4f9cff;
+  --brand-glow:rgba(37,99,235,.45);
+  --price:#2563eb;
+  --ink:#15181d;
+  --ink-2:#3d434e;
+  --muted:#6b7280;
+  --muted-2:#9aa1ad;
+  --line:#e9ebef;
+  --line-2:#f1f3f5;
+  --bg:#f4f5f7;
+  --card:#ffffff;
+  --surface-2:#fafbfc;
+  --hover-2:#e6e9ee;
+  --star:#f7b500;
+  --green:#1f9d55;
+
+  /* superfícies compostas */
+  --header-bg:rgba(255,255,255,.92);
+  --overlay:rgba(255,255,255,.95);
+  --hero-top:#ffffff;
+
+  /* botões/pílulas que invertem em relação ao fundo */
+  --invert-bg:#15181d;
+  --invert-fg:#ffffff;
+
+  /* avisos e selos */
+  --warn-bg:#fffaf2;
+  --warn-line:#f0d9b5;
+  --warn-ink:#a8701a;
+  --veg-bg:#e8f6ed;
+  --veg-fg:#1f9d55;
+
+  /* mapa */
+  --map-bg:#e7ebf0;
+  --map-bg-2:#dde3ea;
+  --map-grid:rgba(255,255,255,.7);
+  --tile-filter:none;
+
+  /* gradiente do placeholder de foto (matiz vem do JS) */
+  --ph-s:45%;
+  --ph-l1:88%;
+  --ph-l2:80%;
+
+  --shadow-sm:0 1px 2px rgba(16,24,40,.05);
+  --shadow:0 4px 16px rgba(16,24,40,.07);
+  --shadow-lg:0 12px 40px rgba(16,24,40,.12);
+  --r-sm:8px; --r:12px; --r-lg:16px; --r-xl:22px;
+  --container:1120px;
+}
+
+/* Paleta escura — aplicada quando o sistema pede E o usuário não
+   escolheu "claro" explicitamente. */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+
+    --brand:#6ea8ff;
+    --brand-dark:#8dbcff;
+    --brand-soft:#16233a;
+    --on-brand:#06142e;
+    --brand-2:#9dc5ff;
+    --brand-glow:rgba(110,168,255,.4);
+    --price:#6ea8ff;
+    --ink:#eef1f6;
+    --ink-2:#c2c9d6;
+    --muted:#949cab;
+    --muted-2:#6d7482;
+    --line:#272c36;
+    --line-2:#1d212a;
+    --bg:#0f1116;
+    --card:#171b22;
+    --surface-2:#1b1f27;
+    --hover-2:#272c36;
+    --star:#f7b500;
+    --green:#3ac07d;
+
+    --header-bg:rgba(15,17,22,.92);
+    --overlay:rgba(23,27,34,.92);
+    --hero-top:#171b22;
+
+    --invert-bg:#eef1f6;
+    --invert-fg:#0f1116;
+
+    --warn-bg:#241c10;
+    --warn-line:#4a3a1c;
+    --warn-ink:#e0ae5c;
+    --veg-bg:#14301f;
+    --veg-fg:#3ac07d;
+
+    --map-bg:#1b2029;
+    --map-bg-2:#141821;
+    --map-grid:rgba(255,255,255,.06);
+    --tile-filter:invert(1) hue-rotate(180deg) brightness(.92) contrast(.92) saturate(.85);
+
+    --ph-s:26%;
+    --ph-l1:26%;
+    --ph-l2:19%;
+
+    --shadow-sm:0 1px 2px rgba(0,0,0,.35);
+    --shadow:0 4px 16px rgba(0,0,0,.45);
+    --shadow-lg:0 12px 40px rgba(0,0,0,.6);
+  }
+}
+
+/* Escolha explícita pelo botão — ganha do sistema. */
+:root[data-theme="dark"]{
+  color-scheme:dark;
+
+  --brand:#6ea8ff;
+  --brand-dark:#8dbcff;
+  --brand-soft:#16233a;
+  --on-brand:#06142e;
+  --brand-2:#9dc5ff;
+  --brand-glow:rgba(110,168,255,.4);
+  --price:#6ea8ff;
+  --ink:#eef1f6;
+  --ink-2:#c2c9d6;
+  --muted:#949cab;
+  --muted-2:#6d7482;
+  --line:#272c36;
+  --line-2:#1d212a;
+  --bg:#0f1116;
+  --card:#171b22;
+  --surface-2:#1b1f27;
+  --hover-2:#272c36;
+  --star:#f7b500;
+  --green:#3ac07d;
+
+  --header-bg:rgba(15,17,22,.92);
+  --overlay:rgba(23,27,34,.92);
+  --hero-top:#171b22;
+
+  --invert-bg:#eef1f6;
+  --invert-fg:#0f1116;
+
+  --warn-bg:#241c10;
+  --warn-line:#4a3a1c;
+  --warn-ink:#e0ae5c;
+  --veg-bg:#14301f;
+  --veg-fg:#3ac07d;
+
+  --map-bg:#1b2029;
+  --map-bg-2:#141821;
+  --map-grid:rgba(255,255,255,.06);
+  --tile-filter:invert(1) hue-rotate(180deg) brightness(.92) contrast(.92) saturate(.85);
+
+  --ph-s:26%;
+  --ph-l1:26%;
+  --ph-l2:19%;
+
+  --shadow-sm:0 1px 2px rgba(0,0,0,.35);
+  --shadow:0 4px 16px rgba(0,0,0,.45);
+  --shadow-lg:0 12px 40px rgba(0,0,0,.6);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+  font-size:15px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+input{font:inherit}
+a{color:inherit;text-decoration:none}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;background:var(--line-2);padding:1px 5px;border-radius:5px}
+
+.container{width:100%;max-width:var(--container);margin:0 auto;padding:0 24px}
+.icon{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ============================ Header ============================ */
+.site-header{
+  position:sticky;top:0;z-index:60;
+  background:var(--header-bg);
+  backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.header-inner{display:flex;align-items:center;gap:16px;height:64px}
+.logo{display:flex;align-items:center;gap:9px;flex:none}
+.logo-mark{
+  width:32px;height:32px;border-radius:10px;
+  background:linear-gradient(140deg,var(--brand),var(--brand-2));
+  color:#fff;font-weight:800;font-size:13px;letter-spacing:-.02em;
+  display:grid;place-items:center;
+}
+.logo-text{font-weight:800;font-size:19px;letter-spacing:-.025em}
+.logo--footer .logo-mark{width:28px;height:28px;font-size:11.5px}
+
+/* botão de tema claro/escuro */
+.theme-btn{
+  width:38px;height:38px;flex:none;border-radius:999px;
+  border:1px solid var(--line);background:var(--card);color:var(--ink-2);
+  display:grid;place-items:center;
+  transition:border-color .15s,color .15s;
+}
+.theme-btn:hover{border-color:var(--muted-2);color:var(--ink)}
+.theme-btn .icon{width:17px;height:17px;grid-area:1/1}
+/* mostra o ícone do tema que o clique VAI aplicar */
+.theme-btn .icon-sun{display:none}
+.theme-btn .icon-moon{display:block}
+:root[data-theme="dark"] .theme-btn .icon-sun{display:block}
+:root[data-theme="dark"] .theme-btn .icon-moon{display:none}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .theme-btn .icon-sun{display:block}
+  :root:not([data-theme="light"]) .theme-btn .icon-moon{display:none}
+}
+
+.header-search{
+  flex:1;max-width:520px;
+  display:flex;align-items:center;gap:9px;
+  background:var(--bg);border:1px solid transparent;
+  border-radius:999px;padding:0 16px;height:40px;
+  transition:border-color .15s,background .15s;
+}
+.header-search:focus-within{background:var(--card);border-color:var(--ink);box-shadow:0 0 0 3px rgba(21,24,29,.06)}
+.header-search .icon{color:var(--muted-2)}
+.header-search input{flex:1;border:0;background:none;outline:none;font-size:14px;min-width:0}
+.header-search input::-webkit-search-cancel-button{-webkit-appearance:none}
+
+.loc-chip{
+  display:flex;align-items:center;gap:6px;flex:none;
+  font-size:13.5px;font-weight:600;color:var(--ink-2);
+  padding:8px 14px;border-radius:999px;border:1px solid var(--line);
+  background:var(--card);transition:border-color .15s,color .15s;
+  max-width:210px;
+}
+.loc-chip:hover{border-color:var(--muted-2)}
+.loc-chip .icon{color:var(--brand);width:16px;height:16px}
+.loc-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.loc-chip.is-loading{opacity:.6;pointer-events:none}
+.loc-chip .loc-caret{color:var(--muted-2);width:14px;height:14px;transition:transform .18s}
+.loc-chip[aria-expanded="true"]{border-color:var(--ink)}
+.loc-chip[aria-expanded="true"] .loc-caret{transform:rotate(180deg)}
+
+/* ---------------- seletor de localização ---------------- */
+.loc-wrap{position:relative;flex:none}
+.loc-pop{
+  position:absolute;right:0;top:calc(100% + 10px);width:340px;z-index:80;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
+  box-shadow:var(--shadow-lg);padding:10px;
+  animation:locIn .16s ease-out;
+}
+@keyframes locIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+.loc-gps{
+  display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+  padding:11px 12px;border-radius:var(--r);transition:background .15s;
+}
+.loc-gps:hover{background:var(--brand-soft)}
+.loc-gps-ico{
+  width:34px;height:34px;border-radius:50%;flex:none;display:grid;place-items:center;
+  background:var(--brand-soft);color:var(--brand);
+}
+.loc-gps-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.loc-gps-txt strong{font-size:13.8px;font-weight:650}
+.loc-gps-txt small{font-size:12px;color:var(--muted)}
+
+.loc-div{display:flex;align-items:center;gap:10px;margin:10px 2px 9px;color:var(--muted-2);font-size:11.5px;font-weight:600}
+.loc-div::before,.loc-div::after{content:"";flex:1;height:1px;background:var(--line)}
+
+.loc-field{
+  display:flex;align-items:center;gap:9px;height:40px;padding:0 13px;
+  background:var(--bg);border:1px solid transparent;border-radius:var(--r);
+  transition:border-color .15s,background .15s;
+}
+.loc-field:focus-within{background:var(--card);border-color:var(--ink)}
+.loc-field .icon{color:var(--muted-2);width:16px;height:16px}
+.loc-field input{flex:1;border:0;background:none;outline:none;font-size:14px;min-width:0}
+
+.loc-list{list-style:none;margin:6px 0 0;padding:0;max-height:246px;overflow-y:auto}
+.loc-list:empty{margin:0}
+.loc-list button{
+  display:flex;align-items:center;gap:11px;width:100%;text-align:left;
+  padding:9px 12px;border-radius:var(--r-sm);transition:background .12s;
+}
+.loc-list button:hover,.loc-list button:focus-visible{background:var(--line-2);outline:none}
+.loc-list .icon{color:var(--muted-2);width:16px;height:16px}
+.loc-opt-txt{display:flex;flex-direction:column;gap:1px;min-width:0}
+.loc-opt-main{font-size:13.8px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.loc-opt-sub{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.loc-opt-count{margin-left:auto;font-size:11.5px;font-weight:650;color:var(--green);flex:none}
+
+.loc-empty{padding:14px 12px;font-size:13px;color:var(--muted-2);text-align:center}
+.loc-hint{margin:9px 4px 3px;font-size:11.8px;color:var(--muted-2);line-height:1.45}
+
+/* ============================ Home hero ============================ */
+.hero{
+  background:linear-gradient(180deg,var(--hero-top) 0%,var(--bg) 100%);
+  border-bottom:1px solid var(--line);
+  padding:52px 0 36px;
+}
+.hero h1{
+  margin:0 0 10px;font-size:38px;line-height:1.15;letter-spacing:-.035em;font-weight:800;max-width:16ch;
+}
+.hero h1 em{font-style:normal;color:var(--brand)}
+.hero p{margin:0 0 26px;color:var(--muted);font-size:16.5px;max-width:52ch}
+.hero-search{
+  display:flex;align-items:center;gap:8px;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r-xl);
+  padding:7px 7px 7px 18px;box-shadow:var(--shadow);max-width:660px;
+}
+.hero-search .icon{color:var(--muted-2);width:20px;height:20px}
+.hero-search input{flex:1;border:0;outline:none;background:none;font-size:15.5px;height:42px;min-width:0}
+.hero-search button{
+  flex:none;background:var(--brand);color:var(--on-brand);font-weight:650;font-size:14.5px;
+  padding:0 22px;height:42px;border-radius:var(--r-lg);transition:background .15s;
+}
+.hero-search button:hover{background:var(--brand-dark)}
+.hero-stats{display:flex;gap:26px;margin-top:20px;flex-wrap:wrap}
+.hero-stat{font-size:13.5px;color:var(--muted)}
+.hero-stat b{display:block;font-size:19px;color:var(--ink);font-weight:750;letter-spacing:-.02em}
+
+/* ============================ Categories ============================ */
+.section{padding:34px 0}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px}
+.section-head h2{margin:0;font-size:21px;font-weight:750;letter-spacing:-.025em}
+.section-head .sub{color:var(--muted);font-size:13.5px}
+
+.cats{display:flex;gap:10px;overflow-x:auto;padding:4px 0 12px;scrollbar-width:thin}
+.cats::-webkit-scrollbar{height:6px}
+.cats::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px}
+.cat{
+  flex:none;display:flex;flex-direction:column;align-items:center;gap:7px;
+  width:88px;padding:14px 6px;border-radius:var(--r);
+  background:var(--card);border:1px solid var(--line);
+  transition:transform .15s,border-color .15s,box-shadow .15s;
+}
+.cat:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--line)}
+.cat.is-active{border-color:var(--brand);background:var(--brand-soft);box-shadow:0 0 0 1px var(--brand) inset}
+.cat-emoji{font-size:24px;line-height:1}
+.cat-name{font-size:12.5px;font-weight:600;color:var(--ink-2);text-align:center;line-height:1.25}
+
+/* ============================ Filters ============================ */
+.filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 13px;border-radius:999px;border:1px solid var(--line);
+  background:var(--card);font-size:13px;font-weight:600;color:var(--ink-2);
+  transition:border-color .15s,background .15s,color .15s;
+}
+.chip:hover{border-color:var(--muted-2)}
+.chip.is-active{background:var(--invert-bg);border-color:var(--invert-bg);color:var(--invert-fg)}
+.chip .icon{width:15px;height:15px}
+.filters-spacer{flex:1}
+.select-wrap{position:relative;display:inline-flex;align-items:center}
+.select-wrap select{
+  appearance:none;-webkit-appearance:none;
+  padding:7px 32px 7px 13px;border-radius:999px;border:1px solid var(--line);
+  background:var(--card);font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;outline:none;
+}
+.select-wrap .icon{position:absolute;right:10px;pointer-events:none;color:var(--muted-2);width:14px;height:14px}
+
+/* ============================ Restaurant cards ============================ */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:22px}
+.rcard{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
+  overflow:hidden;display:flex;flex-direction:column;
+  transition:transform .18s,box-shadow .18s,border-color .18s;
+}
+.rcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:transparent}
+.rcard-media{position:relative;aspect-ratio:16/10;background:var(--line-2);overflow:hidden}
+.rcard-media-link{display:block;position:relative;width:100%;height:100%}
+.rcard-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.rcard:hover .rcard-media img{transform:scale(1.045)}
+/* O JS só informa a matiz (--ph-hue); saturação e luminosidade vêm
+   do tema, senão os gradientes ficariam berrantes no escuro. */
+.ph{
+  position:absolute;inset:0;display:grid;place-items:center;font-size:40px;
+  background:linear-gradient(140deg,
+    hsl(var(--ph-hue,20) var(--ph-s) var(--ph-l1)),
+    hsl(calc(var(--ph-hue,20) + 40) var(--ph-s) var(--ph-l2)));
+}
+.rcard-badge{
+  position:absolute;left:12px;top:12px;
+  background:var(--overlay);backdrop-filter:blur(4px);
+  padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700;
+  display:flex;align-items:center;gap:5px;box-shadow:var(--shadow-sm);
+}
+.rcard-badge .icon{width:13px;height:13px;color:var(--star);fill:var(--star);stroke:none}
+.rcard-badge .count{color:var(--muted);font-weight:500}
+.rcard-open{
+  position:absolute;right:12px;top:12px;
+  padding:5px 10px;border-radius:999px;font-size:11.5px;font-weight:700;
+  background:var(--overlay);backdrop-filter:blur(4px);box-shadow:var(--shadow-sm);
+}
+.rcard-open.is-open{color:var(--green)}
+.rcard-open.is-closed{color:var(--muted)}
+.rcard-fav{
+  position:absolute;right:12px;bottom:12px;width:34px;height:34px;border-radius:50%;
+  background:var(--overlay);display:grid;place-items:center;
+  box-shadow:var(--shadow-sm);color:var(--ink-2);transition:color .15s,transform .15s;
+}
+.rcard-fav:hover{transform:scale(1.08)}
+.rcard-fav.is-on{color:var(--brand)}
+.rcard-fav.is-on .icon{fill:var(--brand)}
+
+.rcard-body{padding:14px 16px 16px;display:flex;flex-direction:column;flex:1}
+.rcard-title{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.rcard-title h3{margin:0;font-size:16.5px;font-weight:700;letter-spacing:-.02em}
+.rcard-meta{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.dot{width:3px;height:3px;border-radius:50%;background:var(--muted-2);flex:none}
+.price-level{font-weight:700;letter-spacing:.5px}
+.price-level .on{color:var(--green)}
+.price-level .off{color:var(--line)}
+
+.rcard-dishes{
+  margin:13px 0 0;padding:11px 12px;border-radius:var(--r-sm);
+  background:var(--surface-2);border:1px solid var(--line-2);
+}
+.rcard-dish{display:flex;justify-content:space-between;gap:12px;font-size:12.8px;padding:2px 0}
+.rcard-dish span:first-child{color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rcard-dish span:last-child{color:var(--price);font-weight:700;flex:none}
+.rcard-foot{
+  margin-top:auto;padding-top:13px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  font-size:12.5px;color:var(--muted);
+}
+.rcard-avg b{color:var(--ink);font-weight:700}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.tag{
+  font-size:11.5px;font-weight:600;color:var(--ink-2);
+  background:var(--line-2);padding:4px 9px;border-radius:999px;white-space:nowrap;
+}
+
+/* ---------------- catálogo aberto (OpenStreetMap) ---------------- */
+.rcard--open{border-style:dashed}
+.rcard--open .rcard-media{aspect-ratio:16/7}
+.rcard-src{
+  position:absolute;left:12px;top:12px;
+  background:var(--overlay);backdrop-filter:blur(4px);
+  padding:5px 10px;border-radius:999px;font-size:11px;font-weight:700;
+  color:var(--muted);box-shadow:var(--shadow-sm);
+}
+.rcard-nomenu{
+  margin-top:13px;padding:11px 12px;border-radius:var(--r-sm);
+  background:var(--warn-bg);border:1px dashed var(--warn-line);
+  display:flex;flex-direction:column;gap:3px;
+}
+.rcard-nomenu strong{font-size:12.8px;font-weight:700;color:var(--warn-ink)}
+.rcard-nomenu span{font-size:12px;color:var(--muted);line-height:1.4}
+
+.osm-note{
+  margin:4px 0 18px;font-size:14px;color:var(--muted);
+}
+.osm-block{margin-top:34px}
+.osm-head{margin-bottom:16px;padding-left:11px;border-left:3px solid var(--muted-2)}
+.osm-head h3{margin:0;font-size:18px;font-weight:750;letter-spacing:-.02em}
+.osm-head p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+
+.osm-error{
+  display:flex;flex-direction:column;align-items:flex-start;gap:7px;
+  padding:22px 24px;background:var(--card);border:1px dashed var(--line);border-radius:var(--r-lg);
+}
+.osm-error strong{font-size:15px;font-weight:700}
+.osm-error span{font-size:13.5px;color:var(--muted);max-width:58ch;line-height:1.55}
+.osm-error .btn{margin-top:6px}
+
+.src-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:12px;font-weight:650;color:var(--muted);
+  background:var(--line-2);padding:4px 9px;border-radius:999px;
+}
+.src-badge .icon{width:13px;height:13px;color:var(--muted-2)}
+
+.nomenu-panel{text-align:center;padding:44px 34px}
+.nomenu-ico{
+  width:52px;height:52px;border-radius:50%;margin:0 auto 16px;
+  background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;
+}
+.nomenu-ico .icon{width:24px;height:24px}
+.nomenu-panel h2{margin:0 0 10px}
+.nomenu-panel p{margin:0 auto 22px;max-width:52ch;color:var(--muted);font-size:14.5px;line-height:1.6}
+.nomenu-panel strong{color:var(--ink)}
+.nomenu-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+.empty{
+  text-align:center;padding:70px 20px;background:var(--card);border:1px dashed var(--line);border-radius:var(--r-lg);
+}
+.empty .big{font-size:38px;margin-bottom:10px}
+.empty h3{margin:0 0 6px;font-size:18px}
+.empty p{margin:0 0 18px;color:var(--muted)}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--invert-bg);color:var(--invert-fg);font-weight:650;font-size:14px;
+  padding:10px 18px;border-radius:var(--r);transition:opacity .15s;
+}
+.btn:hover{opacity:.88}
+.btn--ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.btn--brand{background:var(--brand)}
+.btn--brand:hover{background:var(--brand-dark);opacity:1}
+
+/* ============================ Restaurant page ============================ */
+.rhero{height:280px;position:relative;overflow:hidden;background:var(--map-bg)}
+.rhero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rhero .ph{font-size:76px}
+.rhero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,0) 45%)}
+.rhero-back{
+  position:absolute;left:24px;top:20px;z-index:3;
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--overlay);backdrop-filter:blur(6px);
+  padding:8px 15px;border-radius:999px;font-size:13.5px;font-weight:650;
+  box-shadow:var(--shadow-sm);
+}
+.rhero-back:hover{background:var(--card)}
+
+.rwrap{margin-top:-72px;position:relative;z-index:2;padding-bottom:56px}
+
+.rhead{
+  background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow);
+  padding:26px 28px;display:flex;gap:20px;align-items:flex-start;
+}
+.rhead-main{flex:1;min-width:0}
+.rhead h1{margin:0 0 9px;font-size:29px;font-weight:800;letter-spacing:-.035em}
+.rhead-meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:14px;color:var(--muted);margin-bottom:12px}
+.stars{position:relative;display:inline-block;line-height:0;flex:none}
+.stars-bg,.stars-fg{display:flex;gap:2px}
+.stars-fg{position:absolute;left:0;top:0;overflow:hidden;white-space:nowrap}
+.stars .icon{width:15px;height:15px;stroke:none;fill:var(--line);flex:none}
+.stars-fg .icon{fill:var(--star)}
+.rating-num{font-weight:700;color:var(--ink);margin-left:5px}
+.rating-count{color:var(--muted)}
+.rhead-desc{margin:0 0 14px;color:var(--ink-2);font-size:14.5px;max-width:70ch}
+.rhead-actions{display:flex;gap:8px;flex:none}
+.icon-btn{
+  width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--ink-2);background:var(--card);
+  transition:border-color .15s,color .15s,transform .15s;
+}
+.icon-btn:hover{border-color:var(--muted-2);transform:translateY(-1px)}
+.icon-btn.is-on{color:var(--brand);border-color:var(--brand)}
+.icon-btn.is-on .icon{fill:var(--brand)}
+
+.rbody{display:grid;grid-template-columns:1fr 340px;gap:22px;margin-top:22px;align-items:start}
+.panel{background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border:1px solid var(--line);padding:24px 26px}
+.panel--flush{padding:0}
+.panel h2{margin:0 0 4px;font-size:21px;font-weight:750;letter-spacing:-.025em}
+
+/* menu */
+.menu-nav{display:flex;gap:7px;overflow-x:auto;margin:16px 0 4px;padding-bottom:8px}
+.menu-nav a{
+  flex:none;font-size:12.5px;font-weight:600;color:var(--ink-2);
+  padding:6px 12px;border-radius:999px;background:var(--line-2);
+}
+.menu-nav a:hover{background:var(--hover-2)}
+.msection{margin-top:26px;scroll-margin-top:90px}
+.msection-head{display:flex;align-items:baseline;gap:9px;border-left:3px solid var(--brand);padding-left:11px;margin-bottom:6px}
+.msection-head h3{margin:0;font-size:17.5px;font-weight:750;letter-spacing:-.02em}
+.msection-head .count{font-size:12.5px;color:var(--muted-2)}
+.mitem{display:flex;gap:18px;padding:15px 0;border-bottom:1px solid var(--line-2)}
+.mitem:last-child{border-bottom:0;padding-bottom:2px}
+.mitem-main{flex:1;min-width:0}
+.mitem-name{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px}
+.mitem-name strong{font-size:14.8px;font-weight:650}
+.mitem-desc{margin:0;font-size:13.2px;color:var(--muted);line-height:1.5}
+.mitem-price{font-size:15.5px;font-weight:750;color:var(--price);white-space:nowrap;flex:none;letter-spacing:-.01em}
+.pill{font-size:10.5px;font-weight:700;letter-spacing:.02em;padding:3px 8px;border-radius:6px;background:var(--invert-bg);color:var(--invert-fg)}
+.pill--veg{background:var(--veg-bg);color:var(--veg-fg)}
+.pill--new{background:var(--brand-soft);color:var(--brand)}
+
+/* sidebar */
+.side-block{padding:20px 22px;border-bottom:1px solid var(--line-2)}
+.side-block:last-child{border-bottom:0}
+.side-title{display:flex;align-items:center;gap:9px;margin:0 0 9px;font-size:15.5px;font-weight:700;letter-spacing:-.02em}
+.side-title .icon{color:var(--brand);width:17px;height:17px}
+.side-block p{margin:0;font-size:13.8px;color:var(--ink-2);line-height:1.55}
+.side-sub{color:var(--muted-2);font-size:12.8px;margin-top:3px}
+.side-label{font-size:13px;font-weight:700;margin:0 0 5px}
+
+.map-box{
+  height:150px;border-radius:var(--r);overflow:hidden;margin-bottom:13px;
+  background:var(--map-bg);position:relative;border:1px solid var(--line);
+  /* prende as camadas do Leaflet (z-index até 800) dentro do card,
+     senão elas passam por cima do header fixo ao rolar a página */
+  z-index:0;isolation:isolate;
+}
+/* Leaflet / OpenStreetMap */
+.map-box.leaflet-container{background:var(--map-bg);font:inherit}
+/* Os tiles do OSM são claros; no tema escuro eles são invertidos
+   para não virarem um retângulo branco no meio do card.
+
+   O filtro vai no PAINEL de tiles, não em cada <img>: o CSS do
+   Leaflet declara `.leaflet-tile{filter:inherit}` justamente para
+   que o filtro desça do contêiner. Uma regra direta na imagem tem a
+   mesma especificidade e ainda perde por ordem de cascata, porque o
+   CSS do Leaflet é injetado depois deste arquivo.
+
+   O painel só contém tiles — marcador e atribuição estão em outros
+   painéis e ficam de fora da inversão. */
+.map-box .leaflet-tile-pane{filter:var(--tile-filter)}
+.leaflet-div-icon.fr-pin{background:none;border:0}
+.map-box .leaflet-control-attribution{
+  font-size:9.5px;padding:1px 5px;background:var(--overlay);
+  color:var(--muted);border-radius:4px 0 0 0;
+}
+.map-box .leaflet-control-attribution a{color:var(--muted-2);text-decoration:underline}
+.map-box .map-fallback{
+  position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:16px;
+  background:
+    linear-gradient(90deg,var(--map-grid) 1px,transparent 1px) 0 0/28px 28px,
+    linear-gradient(var(--map-grid) 1px,transparent 1px) 0 0/28px 28px,
+    linear-gradient(150deg,var(--map-bg),var(--map-bg-2));
+}
+.map-pin{width:34px;height:34px;border-radius:50%;background:var(--brand);display:grid;place-items:center;color:var(--on-brand);box-shadow:0 4px 14px var(--brand-glow)}
+.map-pin .icon{width:18px;height:18px;stroke-width:2.2}
+
+.hours-list{margin:6px 0 0;padding:0;list-style:none;font-size:13.2px}
+.hours-list li{display:flex;justify-content:space-between;gap:12px;padding:4px 0;color:var(--ink-2)}
+.hours-list li.today{font-weight:700;color:var(--ink)}
+.hours-list li .closed{color:var(--muted-2);font-weight:500}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:13.2px;font-weight:700}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.status.open{color:var(--green)}
+.status.closed{color:var(--muted)}
+.hours-toggle{font-size:12.5px;font-weight:650;color:var(--brand);margin-top:8px}
+
+.avg-row{display:flex;align-items:baseline;gap:8px}
+.avg-row .big{font-size:19px;font-weight:750;letter-spacing:-.02em}
+.facilities{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+.fac{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink-2);background:var(--line-2);padding:5px 10px;border-radius:999px}
+.fac .icon{width:14px;height:14px;color:var(--muted)}
+
+.side-cta{display:flex;flex-direction:column;gap:8px;padding:18px 22px}
+.side-cta .btn{justify-content:center;width:100%}
+
+.toast{
+  position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);
+  background:var(--invert-bg);color:var(--invert-fg);padding:11px 20px;border-radius:999px;
+  font-size:13.5px;font-weight:600;box-shadow:var(--shadow-lg);
+  opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;z-index:200;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ============================ Footer ============================ */
+.site-footer{background:var(--card);border-top:1px solid var(--line);margin-top:20px}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:24px;padding-top:26px;padding-bottom:26px;flex-wrap:wrap}
+.footer-tag{margin:6px 0 0;color:var(--muted);font-size:13.5px}
+.footer-note{margin:0;color:var(--muted-2);font-size:12.3px;max-width:46ch;text-align:right}
+
+/* ============================ Responsive ============================ */
+@media (max-width:960px){
+  .rbody{grid-template-columns:1fr}
+  .hero h1{font-size:31px}
+  .footer-note{text-align:left}
+}
+@media (max-width:720px){
+  .container{padding:0 16px}
+  .header-search{display:none}
+  .loc-chip{max-width:170px}
+  .loc-pop{width:min(340px,calc(100vw - 32px))}
+  .hero{padding:34px 0 26px}
+  .hero h1{font-size:26px;max-width:none}
+  .hero p{font-size:15px}
+  .hero-search{padding-left:14px}
+  .hero-search button{padding:0 15px}
+  .rhero{height:200px}
+  .rwrap{margin-top:-48px}
+  .rhead{flex-direction:column;padding:20px}
+  .rhead h1{font-size:24px}
+  .panel{padding:20px 18px}
+  .grid{grid-template-columns:1fr}
+}
+
+</style>
+<script>
+/* Aplica o tema ANTES da primeira pintura — sem isso a página
+   pisca branca antes de virar escura. Precisa ficar no <head>. */
+(function () {
+  try {
+    var t = localStorage.getItem("foodradar:theme");
+    if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t);
+  } catch (e) { /* modo privado: fica no padrão do sistema */ }
+})();
+</script>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <a class="logo" href="#/" aria-label="FoodRadar — início">
+      <span class="logo-mark">FR</span>
+      <span class="logo-text">FoodRadar</span>
+    </a>
+
+    <form class="header-search" id="headerSearchForm" role="search">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="headerSearchInput" type="search" placeholder="Buscar restaurante, prato ou cozinha" autocomplete="off" aria-label="Buscar">
+    </form>
+
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Alternar tema" title="Alternar tema claro/escuro">
+      <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg>
+      <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+    </button>
+
+    <div class="loc-wrap">
+      <button class="loc-chip" id="locChip" type="button" aria-haspopup="dialog" aria-expanded="false" title="Mudar localização">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+        <span id="locLabel">São Paulo, SP</span>
+        <svg class="icon loc-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+
+      <div class="loc-pop" id="locPop" hidden role="dialog" aria-label="Escolher localização">
+        <button class="loc-gps" id="locGps" type="button">
+          <span class="loc-gps-ico">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r="8"/><path d="M12 1.5V4M12 20v2.5M1.5 12H4M20 12h2.5"/></svg>
+          </span>
+          <span class="loc-gps-txt">
+            <strong>Usar minha localização atual</strong>
+            <small>Restaurantes mais perto de onde você está</small>
+          </span>
+        </button>
+
+        <div class="loc-div"><span>ou busque um lugar</span></div>
+
+        <div class="loc-field">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input id="locInput" type="text" placeholder="Cidade, bairro ou endereço" autocomplete="off" spellcheck="false">
+        </div>
+
+        <ul class="loc-list" id="locList"></ul>
+        <p class="loc-hint" id="locHint" hidden></p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="app" tabindex="-1"></main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>
+      <div class="logo logo--footer"><span class="logo-mark">FR</span><span class="logo-text">FoodRadar</span></div>
+      <p class="footer-tag">Cardápios completos. Preços transparentes.</p>
+    </div>
+    <p class="footer-note">Protótipo · dados de demonstração. Localização, horários e fotos podem vir do Google Maps quando uma API key é configurada em <code>js/config.js</code>.</p>
+  </div>
+</footer>
+
+
+
+
+
+
+<script>
+/* ---- js/config.js ---- */
+/* ============================================================
+   FoodRadar — configuração
+   ------------------------------------------------------------
+   Para ligar o Google Maps (mapa real, foto do lugar, horário
+   oficial e endereço), cole sua chave em GOOGLE_MAPS_API_KEY.
+
+   No Google Cloud Console habilite:
+     - Maps JavaScript API   (renderizar o mapa)
+     - Places API (New)      (detalhes, horários, fotos, nota)
+     - Geocoding API         (endereço a partir da localização)
+
+   Sem chave o app funciona 100% com os dados locais de
+   js/data.js — só o mapa vira um placeholder com link para o
+   Google Maps.
+   ============================================================ */
+window.FR_CONFIG = {
+  GOOGLE_MAPS_API_KEY: "",
+
+  // Quem desenha o mapa da página do restaurante:
+  //   "auto"   → Google se houver API key, senão OpenStreetMap
+  //   "osm"    → sempre OpenStreetMap (Leaflet) — grátis, sem chave, sem cartão
+  //   "google" → sempre Google (exige a API key acima)
+  //   "none"   → sem mapa, só o placeholder
+  MAP_PROVIDER: "auto",
+
+  // Centro padrão quando o usuário não libera a localização.
+  DEFAULT_LOCATION: { lat: -23.5613, lng: -46.6565, label: "São Paulo, SP" },
+
+  // Raio considerado "por perto" a partir do ponto escolhido (km).
+  // 30 km cobre uma região metropolitana inteira.
+  NEARBY_RADIUS_KM: 30,
+
+  // Moeda usada na formatação de preços.
+  CURRENCY: { locale: "pt-BR", code: "BRL" }
+};
+
+/* ---- js/data.js ---- */
+/* ============================================================
+   FoodRadar — camada de dados (mock)
+   ------------------------------------------------------------
+   Essa é a fonte de verdade do produto: o CARDÁPIO e os PREÇOS.
+   O Google Maps complementa (mapa, foto, horário oficial), mas
+   não fornece item de cardápio com preço — isso é conteúdo
+   próprio da plataforma.
+
+   Formato de horário: 7 posições, 0 = domingo … 6 = sábado.
+   Cada dia é um array de faixas "HH:MM-HH:MM" ou null (fechado).
+   ============================================================ */
+
+window.CATEGORIES = [
+  { id: "italiana",      name: "Italiana",      emoji: "\u{1F35D}" },
+  { id: "japonesa",      name: "Japonesa",      emoji: "\u{1F363}" },
+  { id: "hamburguer",    name: "Hambúrguer",    emoji: "\u{1F354}" },
+  { id: "pizza",         name: "Pizza",         emoji: "\u{1F355}" },
+  { id: "brasileira",    name: "Brasileira",    emoji: "\u{1F35B}" },
+  { id: "churrasco",     name: "Churrasco",     emoji: "\u{1F969}" },
+  { id: "vegetariana",   name: "Vegetariana",   emoji: "\u{1F957}" },
+  { id: "arabe",         name: "Árabe",         emoji: "\u{1F959}" },
+  { id: "mexicana",      name: "Mexicana",      emoji: "\u{1F32E}" },
+  { id: "frutos-do-mar", name: "Frutos do mar", emoji: "\u{1F990}" },
+  { id: "cafeteria",     name: "Cafeteria",     emoji: "☕" },
+  { id: "doces",         name: "Doces",         emoji: "\u{1F370}" }
+];
+
+/* Facilidades — rótulo + ícone (chave usada em js/app.js) */
+window.FACILITIES = {
+  wifi:       { label: "WiFi gratuito",     icon: "wifi" },
+  parking:    { label: "Estacionamento",    icon: "parking" },
+  ac:         { label: "Ar-condicionado",   icon: "snow" },
+  accessible: { label: "Acessível",         icon: "accessible" },
+  outdoor:    { label: "Área externa",      icon: "sun" },
+  pet:        { label: "Pet friendly",      icon: "paw" },
+  kids:       { label: "Espaço kids",       icon: "kids" },
+  bar:        { label: "Bar completo",      icon: "glass" },
+  music:      { label: "Música ao vivo",    icon: "music" },
+  cards:      { label: "Aceita cartão",     icon: "card" }
+};
+
+/* Cidades onde a plataforma já tem cardápios cadastrados.
+   Serve para o texto de "nenhum restaurante por aqui" sugerir
+   a cidade coberta mais próxima. */
+window.CITY_INFO = {
+  "sao-paulo":      { label: "São Paulo, SP",      coords: { lat: -23.5613, lng: -46.6565 } },
+  "rio-de-janeiro": { label: "Rio de Janeiro, RJ", coords: { lat: -22.9711, lng: -43.1822 } },
+  "belo-horizonte": { label: "Belo Horizonte, MG", coords: { lat: -19.9386, lng: -43.9382 } }
+};
+
+/* ------------------------------------------------------------
+   Base local de lugares — usada no autocomplete do seletor de
+   localização QUANDO NÃO HÁ API key do Google. Com a chave,
+   js/maps.js usa o Places Autocomplete e ignora esta lista.
+   ------------------------------------------------------------ */
+window.PLACES = [
+  { name: "São Paulo", uf: "SP", coords: { lat: -23.5505, lng: -46.6333 } },
+  { name: "Rio de Janeiro", uf: "RJ", coords: { lat: -22.9068, lng: -43.1729 } },
+  { name: "Belo Horizonte", uf: "MG", coords: { lat: -19.9167, lng: -43.9345 } },
+  { name: "Brasília", uf: "DF", coords: { lat: -15.7939, lng: -47.8828 } },
+  { name: "Salvador", uf: "BA", coords: { lat: -12.9777, lng: -38.5016 } },
+  { name: "Fortaleza", uf: "CE", coords: { lat: -3.7319, lng: -38.5267 } },
+  { name: "Curitiba", uf: "PR", coords: { lat: -25.4284, lng: -49.2733 } },
+  { name: "Recife", uf: "PE", coords: { lat: -8.0476, lng: -34.877 } },
+  { name: "Porto Alegre", uf: "RS", coords: { lat: -30.0346, lng: -51.2177 } },
+  { name: "Manaus", uf: "AM", coords: { lat: -3.1019, lng: -60.025 } },
+  { name: "Belém", uf: "PA", coords: { lat: -1.4558, lng: -48.5044 } },
+  { name: "Goiânia", uf: "GO", coords: { lat: -16.6869, lng: -49.2648 } },
+  { name: "Guarulhos", uf: "SP", coords: { lat: -23.4538, lng: -46.5333 } },
+  { name: "Campinas", uf: "SP", coords: { lat: -22.9099, lng: -47.0626 } },
+  { name: "Osasco", uf: "SP", coords: { lat: -23.5329, lng: -46.7918 } },
+  { name: "Santo André", uf: "SP", coords: { lat: -23.6639, lng: -46.5383 } },
+  { name: "São Bernardo do Campo", uf: "SP", coords: { lat: -23.6944, lng: -46.5654 } },
+  { name: "Barueri", uf: "SP", coords: { lat: -23.5107, lng: -46.8764 } },
+  { name: "Santos", uf: "SP", coords: { lat: -23.9608, lng: -46.3336 } },
+  { name: "Ribeirão Preto", uf: "SP", coords: { lat: -21.1775, lng: -47.8103 } },
+  { name: "Sorocaba", uf: "SP", coords: { lat: -23.5015, lng: -47.4526 } },
+  { name: "São José dos Campos", uf: "SP", coords: { lat: -23.1896, lng: -45.8841 } },
+  { name: "São Luís", uf: "MA", coords: { lat: -2.5307, lng: -44.3068 } },
+  { name: "Maceió", uf: "AL", coords: { lat: -9.6498, lng: -35.7089 } },
+  { name: "Natal", uf: "RN", coords: { lat: -5.7945, lng: -35.211 } },
+  { name: "Teresina", uf: "PI", coords: { lat: -5.0892, lng: -42.8019 } },
+  { name: "Campo Grande", uf: "MS", coords: { lat: -20.4697, lng: -54.6201 } },
+  { name: "João Pessoa", uf: "PB", coords: { lat: -7.1195, lng: -34.845 } },
+  { name: "Florianópolis", uf: "SC", coords: { lat: -27.5954, lng: -48.548 } },
+  { name: "Joinville", uf: "SC", coords: { lat: -26.3044, lng: -48.8456 } },
+  { name: "Blumenau", uf: "SC", coords: { lat: -26.9194, lng: -49.0661 } },
+  { name: "Balneário Camboriú", uf: "SC", coords: { lat: -26.9906, lng: -48.6348 } },
+  { name: "Vitória", uf: "ES", coords: { lat: -20.3155, lng: -40.3128 } },
+  { name: "Vila Velha", uf: "ES", coords: { lat: -20.3297, lng: -40.2925 } },
+  { name: "Cuiabá", uf: "MT", coords: { lat: -15.6014, lng: -56.0979 } },
+  { name: "Aracaju", uf: "SE", coords: { lat: -10.9472, lng: -37.0731 } },
+  { name: "Macapá", uf: "AP", coords: { lat: 0.0349, lng: -51.0694 } },
+  { name: "Porto Velho", uf: "RO", coords: { lat: -8.7612, lng: -63.9004 } },
+  { name: "Rio Branco", uf: "AC", coords: { lat: -9.9754, lng: -67.8249 } },
+  { name: "Boa Vista", uf: "RR", coords: { lat: 2.8235, lng: -60.6758 } },
+  { name: "Palmas", uf: "TO", coords: { lat: -10.1849, lng: -48.3336 } },
+  { name: "Uberlândia", uf: "MG", coords: { lat: -18.9186, lng: -48.2772 } },
+  { name: "Juiz de Fora", uf: "MG", coords: { lat: -21.7642, lng: -43.3496 } },
+  { name: "Contagem", uf: "MG", coords: { lat: -19.9321, lng: -44.0539 } },
+  { name: "Nova Lima", uf: "MG", coords: { lat: -19.9857, lng: -43.8464 } },
+  { name: "Betim", uf: "MG", coords: { lat: -19.9678, lng: -44.1983 } },
+  { name: "Niterói", uf: "RJ", coords: { lat: -22.8832, lng: -43.1034 } },
+  { name: "Petrópolis", uf: "RJ", coords: { lat: -22.505, lng: -43.1789 } },
+  { name: "Armação dos Búzios", uf: "RJ", coords: { lat: -22.7469, lng: -41.8817 } },
+  { name: "Angra dos Reis", uf: "RJ", coords: { lat: -23.0067, lng: -44.3181 } },
+  { name: "Londrina", uf: "PR", coords: { lat: -23.3045, lng: -51.1696 } },
+  { name: "Foz do Iguaçu", uf: "PR", coords: { lat: -25.5163, lng: -54.5854 } },
+  { name: "Caxias do Sul", uf: "RS", coords: { lat: -29.1678, lng: -51.1794 } },
+  { name: "Gramado", uf: "RS", coords: { lat: -29.3788, lng: -50.8737 } },
+  { name: "Olinda", uf: "PE", coords: { lat: -8.0089, lng: -34.8553 } },
+  { name: "Caruaru", uf: "PE", coords: { lat: -8.2828, lng: -35.9758 } },
+  { name: "Feira de Santana", uf: "BA", coords: { lat: -12.2664, lng: -38.9663 } },
+  { name: "Ilhéus", uf: "BA", coords: { lat: -14.7889, lng: -39.0347 } },
+  { name: "Porto Seguro", uf: "BA", coords: { lat: -16.4497, lng: -39.0647 } }
+];
+
+window.RESTAURANTS = [
+  {
+    id: "bella-vita",
+    name: "Bella Vita",
+    cuisine: "Italiana",
+    categories: ["italiana", "pizza"],
+    rating: 4.7,
+    reviews: 189,
+    priceLevel: 3,
+    avgPerPerson: [60, 100],
+    description: "Cozinha italiana autêntica com massas artesanais e receitas tradicionais.",
+    highlights: ["Delivery", "Aceita reserva", "WiFi gratuito"],
+    facilities: ["wifi", "ac", "cards", "accessible", "bar"],
+    address: "Av. Paulista, 456 - Bela Vista, São Paulo - SP",
+    city: "sao-paulo",
+    coords: { lat: -23.5697, lng: -46.6455 },
+    placeId: "",
+    phone: "(11) 3251-4400",
+    delivery: true,
+    reservation: true,
+    photo: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80",
+    hours: [
+      ["12:00-22:00"],
+      null,
+      ["11:30-15:00", "18:00-23:00"],
+      ["11:30-15:00", "18:00-23:00"],
+      ["11:30-15:00", "18:00-23:00"],
+      ["11:30-15:00", "18:00-00:00"],
+      ["12:00-00:00"]
+    ],
+    menu: [
+      {
+        section: "Massas",
+        items: [
+          { name: "Carbonara Clássica", price: 58, popular: true, description: "Espaguete com bacon, ovos, queijo pecorino e pimenta do reino" },
+          { name: "Lasanha Bolonhesa", price: 52, description: "Camadas de massa fresca, molho bolonhesa e queijo gratinado" },
+          { name: "Ravioli de Ricota e Espinafre", price: 56, veg: true, description: "Massa recheada ao molho de manteiga e sálvia" },
+          { name: "Fettuccine ao Funghi", price: 62, veg: true, description: "Mix de cogumelos frescos, creme de leite e parmesão" }
+        ]
+      },
+      {
+        section: "Entradas",
+        items: [
+          { name: "Bruschetta Napolitana", price: 28, veg: true, description: "Pão italiano, tomate, manjericão e azeite extra virgem" },
+          { name: "Burrata com Pesto", price: 46, veg: true, popular: true, description: "Burrata cremosa, pesto de manjericão e tomate confit" },
+          { name: "Antepasto da Casa", price: 54, description: "Seleção de frios, azeitonas, queijos e pães" }
+        ]
+      },
+      {
+        section: "Pizzas",
+        items: [
+          { name: "Margherita", price: 48, veg: true, description: "Molho de tomate San Marzano, muçarela de búfala e manjericão" },
+          { name: "Quatro Queijos", price: 56, veg: true, description: "Muçarela, gorgonzola, parmesão e provolone" },
+          { name: "Calabresa Artesanal", price: 52, description: "Calabresa fatiada, cebola roxa e orégano" }
+        ]
+      },
+      {
+        section: "Sobremesas",
+        items: [
+          { name: "Tiramisù", price: 26, popular: true, description: "Receita tradicional com mascarpone e café espresso" },
+          { name: "Panna Cotta de Frutas Vermelhas", price: 24, description: "Creme gelado com calda de frutas vermelhas" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "sushi-koba",
+    name: "Sushi Koba",
+    cuisine: "Japonesa",
+    categories: ["japonesa", "frutos-do-mar"],
+    rating: 4.8,
+    reviews: 412,
+    priceLevel: 4,
+    avgPerPerson: [110, 180],
+    description: "Omakase e sushi de balcão com peixe fresco selecionado diariamente.",
+    highlights: ["Aceita reserva", "Balcão de sushi", "Rodízio"],
+    facilities: ["ac", "cards", "bar", "accessible"],
+    address: "R. dos Pinheiros, 1220 - Pinheiros, São Paulo - SP",
+    city: "sao-paulo",
+    coords: { lat: -23.5648, lng: -46.6912 },
+    placeId: "",
+    phone: "(11) 3062-1180",
+    delivery: false,
+    reservation: true,
+    photo: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=1200&q=80",
+    hours: [null, null, ["18:30-23:00"], ["18:30-23:00"], ["18:30-23:00"], ["18:30-00:00"], ["18:00-00:00"]],
+    menu: [
+      {
+        section: "Sushi & Sashimi",
+        items: [
+          { name: "Combinado Koba (16 peças)", price: 128, popular: true, description: "Seleção do chef com niguiris, uramakis e sashimis" },
+          { name: "Sashimi de Salmão (8 fatias)", price: 68, description: "Cortes espessos de salmão fresco" },
+          { name: "Niguiri de Atum (2 peças)", price: 32, description: "Atum sobre arroz temperado com shari da casa" },
+          { name: "Uramaki Filadélfia (8 peças)", price: 54, description: "Salmão, cream cheese e cebolinha" }
+        ]
+      },
+      {
+        section: "Quentes",
+        items: [
+          { name: "Ramen Tonkotsu", price: 62, popular: true, description: "Caldo de porco cozido 12h, chashu, ovo marinado e nori" },
+          { name: "Gyoza (6 unidades)", price: 38, description: "Pastéis japoneses grelhados de porco e cebolinha" },
+          { name: "Yakisoba de Legumes", price: 46, veg: true, description: "Macarrão salteado com legumes e shoyu artesanal" }
+        ]
+      },
+      {
+        section: "Omakase",
+        items: [
+          { name: "Omakase 12 tempos", price: 320, description: "Menu degustação servido no balcão, sob reserva" },
+          { name: "Omakase 18 tempos", price: 480, description: "Experiência completa com peixes importados" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "brasa-viva",
+    name: "Brasa Viva",
+    cuisine: "Churrasco",
+    categories: ["churrasco", "brasileira"],
+    rating: 4.5,
+    reviews: 736,
+    priceLevel: 3,
+    avgPerPerson: [90, 140],
+    description: "Rodízio de carnes nobres com buffet de saladas e forno a lenha.",
+    highlights: ["Rodízio", "Estacionamento", "Espaço kids"],
+    facilities: ["parking", "ac", "kids", "cards", "accessible", "bar"],
+    address: "Av. Brigadeiro Faria Lima, 2100 - Jardim Paulistano, São Paulo - SP",
+    city: "sao-paulo",
+    coords: { lat: -23.5758, lng: -46.6892 },
+    placeId: "",
+    phone: "(11) 3815-7722",
+    delivery: false,
+    reservation: true,
+    photo: "https://images.unsplash.com/photo-1544025162-d76694265947?w=1200&q=80",
+    hours: [
+      ["11:30-22:00"],
+      ["11:30-15:00"],
+      ["11:30-15:00", "18:00-23:00"],
+      ["11:30-15:00", "18:00-23:00"],
+      ["11:30-15:00", "18:00-23:30"],
+      ["11:30-23:30"],
+      ["11:30-23:30"]
+    ],
+    menu: [
+      {
+        section: "Rodízio",
+        items: [
+          { name: "Rodízio Completo", price: 149, popular: true, description: "Todos os cortes, buffet de saladas e acompanhamentos" },
+          { name: "Rodízio Executivo (almoço)", price: 98, description: "Cortes selecionados, seg a sex até 15h" },
+          { name: "Buffet de Saladas", price: 62, veg: true, description: "Somente buffet, sem carnes" }
+        ]
+      },
+      {
+        section: "À la carte",
+        items: [
+          { name: "Picanha na Chapa (400g)", price: 168, popular: true, description: "Serve 2 pessoas, com farofa, vinagrete e arroz" },
+          { name: "Ancho Angus (300g)", price: 142, description: "Corte argentino grelhado na brasa" },
+          { name: "Costela no Bafo", price: 118, description: "12 horas de cocção lenta, desmancha no garfo" }
+        ]
+      },
+      {
+        section: "Acompanhamentos",
+        items: [
+          { name: "Farofa de Bacon", price: 22, description: "Farinha de mandioca torrada na manteiga" },
+          { name: "Batata Rústica", price: 28, veg: true, description: "Com alecrim e alho confitado" },
+          { name: "Pão de Alho Artesanal", price: 18, veg: true, description: "Grelhado na brasa" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "casa-do-burger",
+    name: "Casa do Burger",
+    cuisine: "Hambúrguer",
+    categories: ["hamburguer"],
+    rating: 4.6,
+    reviews: 1204,
+    priceLevel: 2,
+    avgPerPerson: [45, 70],
+    description: "Smash burgers de blend próprio, pão brioche e batata frita na hora.",
+    highlights: ["Delivery", "Área externa", "Pet friendly"],
+    facilities: ["outdoor", "pet", "cards", "wifi"],
+    address: "R. Augusta, 2280 - Consolação, São Paulo - SP",
+    city: "sao-paulo",
+    coords: { lat: -23.5546, lng: -46.6629 },
+    placeId: "",
+    phone: "(11) 3061-9090",
+    delivery: true,
+    reservation: false,
+    photo: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1200&q=80",
+    hours: [
+      ["17:00-23:00"],
+      ["18:00-23:00"],
+      ["18:00-23:00"],
+      ["18:00-23:00"],
+      ["18:00-00:00"],
+      ["18:00-01:00"],
+      ["17:00-01:00"]
+    ],
+    menu: [
+      {
+        section: "Burgers",
+        items: [
+          { name: "Smash Duplo", price: 42, popular: true, description: "Dois blends de 90g, cheddar, picles e molho da casa" },
+          { name: "Cheese Bacon", price: 46, description: "Blend 160g, cheddar inglês, bacon crocante e cebola caramelizada" },
+          { name: "Frango Crispy", price: 39, description: "Sobrecoxa empanada, coleslaw e maionese defumada" },
+          { name: "Veggie Mushroom", price: 38, veg: true, description: "Hambúrguer de cogumelos, queijo vegano e rúcula" }
+        ]
+      },
+      {
+        section: "Porções",
+        items: [
+          { name: "Fritas com Cheddar e Bacon", price: 34, popular: true, description: "Porção generosa, serve 2" },
+          { name: "Onion Rings", price: 26, veg: true, description: "Anéis de cebola empanados na cerveja" },
+          { name: "Fritas Rústicas", price: 22, veg: true, description: "Com sal de ervas" }
+        ]
+      },
+      {
+        section: "Bebidas",
+        items: [
+          { name: "Milkshake do Dia", price: 24, description: "Pergunte o sabor da semana" },
+          { name: "Chopp Artesanal 500ml", price: 22, description: "IPA, Pilsen ou Weiss" },
+          { name: "Refrigerante Lata", price: 8, description: "Linha Coca-Cola" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "verde-quintal",
+    name: "Verde Quintal",
+    cuisine: "Vegetariana",
+    categories: ["vegetariana", "brasileira"],
+    rating: 4.9,
+    reviews: 268,
+    priceLevel: 2,
+    avgPerPerson: [40, 65],
+    description: "Comida natural de estação, 100% vegetariana, com horta própria.",
+    highlights: ["Delivery", "Área externa", "Sem glúten"],
+    facilities: ["outdoor", "wifi", "accessible", "cards", "pet"],
+    address: "R. Harmonia, 340 - Vila Madalena, São Paulo - SP",
+    city: "sao-paulo",
+    coords: { lat: -23.5527, lng: -46.6903 },
+    placeId: "",
+    phone: "(11) 3812-4455",
+    delivery: true,
+    reservation: false,
+    photo: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1200&q=80",
+    hours: [null, ["11:30-16:00"], ["11:30-16:00"], ["11:30-16:00"], ["11:30-16:00"], ["11:30-16:00", "19:00-22:30"], ["11:30-17:00"]],
+    menu: [
+      {
+        section: "Pratos do dia",
+        items: [
+          { name: "Prato Feito Vegetal", price: 46, veg: true, popular: true, description: "Arroz integral, feijão, legumes assados e proteína do dia" },
+          { name: "Curry de Grão-de-bico", price: 48, veg: true, description: "Leite de coco, especiarias e arroz basmati" },
+          { name: "Moqueca de Banana da Terra", price: 52, veg: true, description: "Dendê, leite de coco, pirão e arroz" }
+        ]
+      },
+      {
+        section: "Bowls & Saladas",
+        items: [
+          { name: "Bowl Mediterrâneo", price: 42, veg: true, description: "Homus, tabule, falafel e pão sírio" },
+          { name: "Salada da Horta", price: 34, veg: true, description: "Folhas colhidas no dia, molho de mostarda e mel" }
+        ]
+      },
+      {
+        section: "Sucos & Cafés",
+        items: [
+          { name: "Suco Verde Detox", price: 18, veg: true, description: "Couve, maçã, limão e gengibre" },
+          { name: "Café Coado Especial", price: 12, veg: true, description: "Grãos de produtores da Mantiqueira" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "cantina-do-porto",
+    name: "Cantina do Porto",
+    cuisine: "Frutos do mar",
+    categories: ["frutos-do-mar", "brasileira"],
+    rating: 4.4,
+    reviews: 523,
+    priceLevel: 3,
+    avgPerPerson: [80, 130],
+    description: "Peixes e frutos do mar frescos, receitas do litoral em porções fartas.",
+    highlights: ["Aceita reserva", "Estacionamento", "Música ao vivo"],
+    facilities: ["parking", "music", "ac", "cards", "bar"],
+    address: "R. Treze de Maio, 620 - Bela Vista, São Paulo - SP",
+    city: "sao-paulo",
+    coords: { lat: -23.5589, lng: -46.6419 },
+    placeId: "",
+    phone: "(11) 3288-3131",
+    delivery: true,
+    reservation: true,
+    photo: "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1200&q=80",
+    hours: [["11:30-17:00"], null, ["11:30-15:00", "18:30-23:00"], ["11:30-15:00", "18:30-23:00"], ["11:30-15:00", "18:30-23:30"], ["11:30-23:30"], ["11:30-23:30"]],
+    menu: [
+      {
+        section: "Do mar",
+        items: [
+          { name: "Moqueca Capixaba (2 pessoas)", price: 178, popular: true, description: "Peixe branco, pirão, arroz e farofa" },
+          { name: "Camarão à Provençal", price: 96, description: "Camarões salteados no alho, azeite e salsinha" },
+          { name: "Filé de Robalo Grelhado", price: 88, description: "Com legumes na manteiga e purê de batata baroa" },
+          { name: "Polvo à Lagareiro", price: 132, description: "Polvo assado com batata ao murro e azeite português" }
+        ]
+      },
+      {
+        section: "Entradas",
+        items: [
+          { name: "Casquinha de Siri", price: 32, description: "Gratinada com parmesão" },
+          { name: "Bolinho de Bacalhau (6 un.)", price: 46, popular: true, description: "Massa leve com bacalhau desfiado" }
+        ]
+      },
+      {
+        section: "Sobremesas",
+        items: [
+          { name: "Pudim de Leite", price: 22, description: "Receita da casa, calda de caramelo" },
+          { name: "Cocada Cremosa", price: 20, description: "Servida quente com sorvete de creme" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "taqueria-sol",
+    name: "Taqueria Sol",
+    cuisine: "Mexicana",
+    categories: ["mexicana"],
+    rating: 4.5,
+    reviews: 341,
+    priceLevel: 2,
+    avgPerPerson: [45, 75],
+    description: "Tacos de tortilla de milho feita na hora e mezcal em taça.",
+    highlights: ["Delivery", "Bar completo", "Área externa"],
+    facilities: ["bar", "outdoor", "cards", "wifi"],
+    address: "R. Aspicuelta, 210 - Vila Madalena, São Paulo - SP",
+    city: "sao-paulo",
+    coords: { lat: -23.5548, lng: -46.6893 },
+    placeId: "",
+    phone: "(11) 3032-7788",
+    delivery: true,
+    reservation: false,
+    photo: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=1200&q=80",
+    hours: [["17:00-22:00"], null, ["18:00-23:00"], ["18:00-23:00"], ["18:00-00:00"], ["18:00-01:00"], ["13:00-01:00"]],
+    menu: [
+      {
+        section: "Tacos",
+        items: [
+          { name: "Taco al Pastor (3 un.)", price: 44, popular: true, description: "Porco marinado, abacaxi, coentro e cebola" },
+          { name: "Taco de Carnitas (3 un.)", price: 46, description: "Pernil desfiado confitado, molho verde" },
+          { name: "Taco de Cogumelos (3 un.)", price: 40, veg: true, description: "Mix de cogumelos, queijo vegano e chipotle" }
+        ]
+      },
+      {
+        section: "Para dividir",
+        items: [
+          { name: "Guacamole com Totopos", price: 38, veg: true, popular: true, description: "Abacate amassado na hora com limão e coentro" },
+          { name: "Nachos Supremos", price: 52, description: "Carne, feijão, queijo derretido e jalapeño" },
+          { name: "Quesadilla de Queijo", price: 34, veg: true, description: "Tortilla de trigo com queijo Oaxaca" }
+        ]
+      },
+      {
+        section: "Bar",
+        items: [
+          { name: "Margarita Clássica", price: 34, description: "Tequila, licor de laranja e limão" },
+          { name: "Mezcal Dose", price: 28, description: "Seleção artesanal de Oaxaca" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "forno-di-pietra",
+    name: "Forno di Pietra",
+    cuisine: "Pizza",
+    categories: ["pizza", "italiana"],
+    rating: 4.7,
+    reviews: 892,
+    priceLevel: 2,
+    avgPerPerson: [50, 85],
+    description: "Pizza napoletana de fermentação natural assada em forno a lenha.",
+    highlights: ["Delivery", "Aceita reserva", "Forno a lenha"],
+    facilities: ["ac", "cards", "accessible", "bar", "wifi"],
+    address: "R. Bela Cintra, 1450 - Consolação, São Paulo - SP",
+    city: "sao-paulo",
+    coords: { lat: -23.5563, lng: -46.6636 },
+    placeId: "",
+    phone: "(11) 3061-2020",
+    delivery: true,
+    reservation: true,
+    photo: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200&q=80",
+    hours: [["18:00-23:00"], ["18:30-23:00"], ["18:30-23:00"], ["18:30-23:00"], ["18:30-00:00"], ["18:30-00:30"], ["18:00-00:30"]],
+    menu: [
+      {
+        section: "Pizzas Clássicas",
+        items: [
+          { name: "Marinara", price: 42, veg: true, description: "Tomate San Marzano, alho, orégano e azeite" },
+          { name: "Margherita D.O.P.", price: 54, veg: true, popular: true, description: "Muçarela de búfala D.O.P., tomate e manjericão" },
+          { name: "Diavola", price: 62, description: "Salame picante calabrês e muçarela fior di latte" }
+        ]
+      },
+      {
+        section: "Pizzas Especiais",
+        items: [
+          { name: "Tartufo", price: 78, veg: true, popular: true, description: "Creme de trufas, cogumelos e parmesão 24 meses" },
+          { name: "Burrata e Presunto Cru", price: 84, description: "Burrata inteira, presunto de Parma e rúcula" }
+        ]
+      },
+      {
+        section: "Sobremesas",
+        items: [
+          { name: "Pizza Nutella", price: 48, veg: true, description: "Com morangos frescos e açúcar de confeiteiro" },
+          { name: "Cannolo Siciliano", price: 22, veg: true, description: "Recheio de ricota e gotas de chocolate" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "beirute-cafe",
+    name: "Beirute Café",
+    cuisine: "Árabe",
+    categories: ["arabe", "vegetariana"],
+    rating: 4.3,
+    reviews: 197,
+    priceLevel: 1,
+    avgPerPerson: [25, 45],
+    description: "Esfihas abertas, homus cremoso e doces árabes feitos na casa.",
+    highlights: ["Delivery", "Preço justo", "Retirada rápida"],
+    facilities: ["cards", "wifi", "accessible"],
+    address: "R. Vergueiro, 880 - Liberdade, São Paulo - SP",
+    city: "sao-paulo",
+    coords: { lat: -23.5713, lng: -46.6382 },
+    placeId: "",
+    phone: "(11) 3277-6060",
+    delivery: true,
+    reservation: false,
+    photo: "https://images.unsplash.com/photo-1540914124281-342587941389?w=1200&q=80",
+    hours: [["11:00-20:00"], ["09:00-21:00"], ["09:00-21:00"], ["09:00-21:00"], ["09:00-22:00"], ["09:00-22:00"], ["10:00-22:00"]],
+    menu: [
+      {
+        section: "Salgados",
+        items: [
+          { name: "Esfiha Aberta de Carne", price: 9, popular: true, description: "Massa fina com carne temperada e limão" },
+          { name: "Esfiha de Queijo", price: 10, veg: true, description: "Queijo coalho derretido" },
+          { name: "Kibe Frito (2 un.)", price: 16, description: "Recheado com carne e hortelã" },
+          { name: "Beirute de Rosbife", price: 34, description: "Pão sírio, rosbife, queijo, ovo e salada" }
+        ]
+      },
+      {
+        section: "Mezze",
+        items: [
+          { name: "Homus com Pão Sírio", price: 26, veg: true, popular: true, description: "Pasta de grão-de-bico com tahine e azeite" },
+          { name: "Babaganuche", price: 28, veg: true, description: "Berinjela defumada com tahine" },
+          { name: "Tabule", price: 24, veg: true, description: "Trigo, tomate, salsa e limão" }
+        ]
+      },
+      {
+        section: "Doces",
+        items: [
+          { name: "Baklava (2 un.)", price: 18, veg: true, description: "Massa folhada, nozes e calda de mel" },
+          { name: "Halawet el Jibn", price: 22, veg: true, description: "Doce de queijo com creme e pistache" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "grao-torrado",
+    name: "Grão Torrado",
+    cuisine: "Cafeteria",
+    categories: ["cafeteria", "doces"],
+    rating: 4.8,
+    reviews: 654,
+    priceLevel: 2,
+    avgPerPerson: [30, 55],
+    description: "Torra própria, métodos filtrados e confeitaria fresca todo dia.",
+    highlights: ["WiFi gratuito", "Bom pra trabalhar", "Café especial"],
+    facilities: ["wifi", "outdoor", "cards", "pet", "accessible"],
+    address: "R. Fradique Coutinho, 1150 - Pinheiros, São Paulo - SP",
+    city: "sao-paulo",
+    coords: { lat: -23.5605, lng: -46.6874 },
+    placeId: "",
+    phone: "(11) 3031-4141",
+    delivery: false,
+    reservation: false,
+    photo: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&q=80",
+    hours: [["09:00-17:00"], ["07:30-19:00"], ["07:30-19:00"], ["07:30-19:00"], ["07:30-19:00"], ["07:30-20:00"], ["08:30-19:00"]],
+    menu: [
+      {
+        section: "Cafés",
+        items: [
+          { name: "Espresso", price: 9, veg: true, description: "Blend da casa, 25ml" },
+          { name: "Cappuccino Italiano", price: 16, veg: true, popular: true, description: "Espresso, leite vaporizado e microespuma" },
+          { name: "Coado V60", price: 18, veg: true, description: "Grão single origin, escolha o do dia" },
+          { name: "Cold Brew 300ml", price: 20, veg: true, description: "Extração a frio por 18 horas" }
+        ]
+      },
+      {
+        section: "Padaria & Doces",
+        items: [
+          { name: "Croissant de Manteiga", price: 14, veg: true, popular: true, description: "Folhado artesanal, assado na hora" },
+          { name: "Bolo de Cenoura com Ganache", price: 18, veg: true, description: "Fatia generosa" },
+          { name: "Cookie de Chocolate 70%", price: 12, veg: true, description: "Casquinha crocante, miolo macio" }
+        ]
+      },
+      {
+        section: "Brunch",
+        items: [
+          { name: "Ovos Mexidos com Torrada", price: 32, veg: true, description: "Pão de fermentação natural e manteiga" },
+          { name: "Avocado Toast", price: 36, veg: true, description: "Abacate, ovo pochê e gergelim" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "tempero-mineiro",
+    name: "Tempero Mineiro",
+    cuisine: "Brasileira",
+    categories: ["brasileira"],
+    rating: 4.6,
+    reviews: 981,
+    priceLevel: 1,
+    avgPerPerson: [30, 50],
+    description: "Comida caseira mineira no fogão a lenha, buffet livre no almoço.",
+    highlights: ["Buffet livre", "Almoço executivo", "Estacionamento"],
+    facilities: ["parking", "cards", "kids", "accessible", "ac"],
+    address: "R. da Consolação, 3120 - Cerqueira César, São Paulo - SP",
+    city: "sao-paulo",
+    coords: { lat: -23.5601, lng: -46.6707 },
+    placeId: "",
+    phone: "(11) 3064-5050",
+    delivery: true,
+    reservation: false,
+    photo: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80",
+    hours: [["11:00-16:00"], ["11:00-15:30"], ["11:00-15:30"], ["11:00-15:30"], ["11:00-15:30"], ["11:00-15:30"], ["11:00-16:00"]],
+    menu: [
+      {
+        section: "Buffet",
+        items: [
+          { name: "Buffet Livre (por pessoa)", price: 54, popular: true, description: "Mais de 20 pratos quentes e saladas, sobremesa inclusa" },
+          { name: "Buffet por Quilo", price: 79.9, description: "Preço por quilo, seg a sex" },
+          { name: "Marmita Executiva", price: 32, description: "Para viagem, com arroz, feijão, guarnição e proteína" }
+        ]
+      },
+      {
+        section: "À la carte",
+        items: [
+          { name: "Feijoada Completa (sáb.)", price: 68, popular: true, description: "Com couve, laranja, farofa e torresmo" },
+          { name: "Frango com Quiabo", price: 52, description: "Acompanha angu e arroz" },
+          { name: "Tutu à Mineira", price: 48, description: "Feijão, bisteca, linguiça e couve" }
+        ]
+      },
+      {
+        section: "Sobremesas",
+        items: [
+          { name: "Doce de Leite com Queijo", price: 16, veg: true, description: "Queijo canastra e doce cremoso" },
+          { name: "Pudim de Padaria", price: 14, veg: true, description: "Fatia individual" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "doce-hora",
+    name: "Doce Hora",
+    cuisine: "Doces",
+    categories: ["doces", "cafeteria"],
+    rating: 4.9,
+    reviews: 412,
+    priceLevel: 2,
+    avgPerPerson: [25, 45],
+    description: "Confeitaria francesa contemporânea, tortas inteiras sob encomenda.",
+    highlights: ["Delivery", "Encomendas", "Sem lactose"],
+    facilities: ["cards", "wifi", "accessible", "ac"],
+    address: "R. Oscar Freire, 980 - Jardins, São Paulo - SP",
+    city: "sao-paulo",
+    coords: { lat: -23.5623, lng: -46.6707 },
+    placeId: "",
+    phone: "(11) 3085-9090",
+    delivery: true,
+    reservation: false,
+    photo: "https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=1200&q=80",
+    hours: [["10:00-18:00"], ["10:00-19:00"], ["10:00-19:00"], ["10:00-19:00"], ["10:00-20:00"], ["10:00-20:00"], ["10:00-20:00"]],
+    menu: [
+      {
+        section: "Fatias",
+        items: [
+          { name: "Torta de Limão Siciliano", price: 26, veg: true, popular: true, description: "Merengue maçaricado e base sablé" },
+          { name: "Ópera de Chocolate", price: 28, veg: true, description: "Camadas de café, ganache e biscuit joconde" },
+          { name: "Cheesecake de Frutas Vermelhas", price: 27, veg: true, description: "Base de biscoito e calda artesanal" }
+        ]
+      },
+      {
+        section: "Petit fours",
+        items: [
+          { name: "Macaron (unidade)", price: 9, veg: true, description: "Seis sabores disponíveis no balcão" },
+          { name: "Éclair de Baunilha", price: 18, veg: true, description: "Creme de baunilha de Madagascar" },
+          { name: "Brigadeiro Belga (6 un.)", price: 32, veg: true, popular: true, description: "Caixa com chocolate 55%" }
+        ]
+      },
+      {
+        section: "Encomendas",
+        items: [
+          { name: "Torta Inteira (18 cm)", price: 180, veg: true, description: "Serve 10 pessoas, pedido com 48h" },
+          { name: "Bolo de Aniversário Personalizado", price: 260, veg: true, description: "A partir de, conforme decoração" }
+        ]
+      }
+    ]
+  },
+
+  /* ======================== Rio de Janeiro ======================== */
+
+  {
+    id: "bar-do-mirante",
+    name: "Bar do Mirante",
+    cuisine: "Brasileira",
+    categories: ["brasileira"],
+    rating: 4.6,
+    reviews: 874,
+    priceLevel: 2,
+    avgPerPerson: [45, 80],
+    description: "Boteco de esquina em Santa Teresa, petiscos clássicos e chope gelado.",
+    highlights: ["Área externa", "Música ao vivo", "Vista"],
+    facilities: ["outdoor", "music", "bar", "cards", "pet"],
+    address: "R. Almirante Alexandrino, 1200 - Santa Teresa, Rio de Janeiro - RJ",
+    city: "rio-de-janeiro",
+    coords: { lat: -22.9186, lng: -43.1876 },
+    placeId: "",
+    phone: "(21) 2242-1100",
+    delivery: false,
+    reservation: false,
+    photo: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80",
+    hours: [["12:00-22:00"], null, ["17:00-00:00"], ["17:00-00:00"], ["17:00-01:00"], ["12:00-02:00"], ["12:00-02:00"]],
+    menu: [
+      {
+        section: "Petiscos",
+        items: [
+          { name: "Bolinho de Feijoada (6 un.)", price: 42, popular: true, description: "Com couve crocante e molho de pimenta" },
+          { name: "Linguiça na Cachaça", price: 38, description: "Flambada na hora, com pão e vinagrete" },
+          { name: "Bolinho de Aipim com Carne Seca", price: 44, description: "Massa cremosa e recheio desfiado" },
+          { name: "Pastel de Queijo Coalho (5 un.)", price: 32, veg: true, description: "Com melado de cana" }
+        ]
+      },
+      {
+        section: "Pratos",
+        items: [
+          { name: "Feijoada Individual", price: 62, popular: true, description: "Sábado e domingo, com todos os acompanhamentos" },
+          { name: "Filé à Parmegiana", price: 78, description: "Serve 2, com arroz e fritas" },
+          { name: "Escondidinho de Carne Seca", price: 56, description: "Purê de aipim gratinado" }
+        ]
+      },
+      {
+        section: "Bar",
+        items: [
+          { name: "Chope Pilsen 300ml", price: 14, description: "Tirado na pressão certa" },
+          { name: "Caipirinha de Limão", price: 26, description: "Cachaça artesanal de Paraty" },
+          { name: "Batida de Coco", price: 24, description: "Feita com leite de coco fresco" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "sal-e-maresia",
+    name: "Sal & Maresia",
+    cuisine: "Frutos do mar",
+    categories: ["frutos-do-mar"],
+    rating: 4.7,
+    reviews: 612,
+    priceLevel: 4,
+    avgPerPerson: [120, 200],
+    description: "Peixes do dia da colônia de pescadores, cozinha de praia contemporânea.",
+    highlights: ["Aceita reserva", "Área externa", "Carta de vinhos"],
+    facilities: ["outdoor", "ac", "bar", "cards", "accessible"],
+    address: "R. Dias Ferreira, 340 - Leblon, Rio de Janeiro - RJ",
+    city: "rio-de-janeiro",
+    coords: { lat: -22.9838, lng: -43.2237 },
+    placeId: "",
+    phone: "(21) 2512-7788",
+    delivery: false,
+    reservation: true,
+    photo: "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1200&q=80",
+    hours: [["12:00-18:00"], null, ["19:00-23:30"], ["19:00-23:30"], ["12:00-16:00", "19:00-00:00"], ["12:00-00:00"], ["12:00-00:00"]],
+    menu: [
+      {
+        section: "Do dia",
+        items: [
+          { name: "Peixe do Dia Grelhado", price: 118, popular: true, description: "Pergunte ao garçom, com legumes na brasa" },
+          { name: "Ceviche de Robalo", price: 82, description: "Leite de tigre, cebola roxa e batata-doce" },
+          { name: "Camarão na Moranga", price: 168, description: "Serve 2, com catupiry e arroz" },
+          { name: "Arroz de Polvo", price: 142, description: "Polvo macio, açafrão e ervas frescas" }
+        ]
+      },
+      {
+        section: "Entradas",
+        items: [
+          { name: "Ostras Frescas (6 un.)", price: 96, popular: true, description: "De Florianópolis, com mignonette" },
+          { name: "Bolinho de Camarão (5 un.)", price: 58, description: "Com maionese de limão siciliano" }
+        ]
+      },
+      {
+        section: "Sobremesas",
+        items: [
+          { name: "Torta de Limão", price: 32, veg: true, description: "Merengue maçaricado" },
+          { name: "Sorvete de Coco Queimado", price: 28, veg: true, description: "Com farofa doce de castanha" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "ipanema-poke",
+    name: "Ipanema Poke",
+    cuisine: "Japonesa",
+    categories: ["japonesa", "vegetariana"],
+    rating: 4.5,
+    reviews: 1032,
+    priceLevel: 2,
+    avgPerPerson: [40, 70],
+    description: "Poke bowls montados na hora, peixe fresco e opções veganas.",
+    highlights: ["Delivery", "Retirada rápida", "Opções veganas"],
+    facilities: ["cards", "wifi", "accessible", "ac"],
+    address: "R. Visconde de Pirajá, 550 - Ipanema, Rio de Janeiro - RJ",
+    city: "rio-de-janeiro",
+    coords: { lat: -22.9838, lng: -43.2045 },
+    placeId: "",
+    phone: "(21) 3592-4040",
+    delivery: true,
+    reservation: false,
+    photo: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=1200&q=80",
+    hours: [["12:00-21:00"], ["11:30-22:00"], ["11:30-22:00"], ["11:30-22:00"], ["11:30-22:30"], ["11:30-22:30"], ["12:00-22:30"]],
+    menu: [
+      {
+        section: "Poke Bowls",
+        items: [
+          { name: "Poke de Salmão", price: 52, popular: true, description: "Arroz shari, salmão, edamame, manga e gergelim" },
+          { name: "Poke de Atum Picante", price: 58, description: "Atum, maionese apimentada, pepino e cebolinha" },
+          { name: "Poke Vegano", price: 44, veg: true, description: "Tofu grelhado, abacate, grão-de-bico e alga" },
+          { name: "Monte o Seu", price: 56, description: "Escolha base, proteína, 4 toppings e molho" }
+        ]
+      },
+      {
+        section: "Acompanha",
+        items: [
+          { name: "Sunomono", price: 18, veg: true, description: "Pepino em conserva agridoce" },
+          { name: "Edamame com Flor de Sal", price: 22, veg: true, description: "Vagem de soja no vapor" },
+          { name: "Gyoza Vegana (5 un.)", price: 32, veg: true, description: "Recheio de shimeji e repolho" }
+        ]
+      },
+      {
+        section: "Bebidas",
+        items: [
+          { name: "Limonada de Gengibre", price: 14, veg: true, description: "Feita na hora" },
+          { name: "Chá Gelado de Hibisco", price: 12, veg: true, description: "Sem açúcar" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "confeitaria-copacabana",
+    name: "Confeitaria Copacabana",
+    cuisine: "Doces",
+    categories: ["doces", "cafeteria"],
+    rating: 4.8,
+    reviews: 1547,
+    priceLevel: 1,
+    avgPerPerson: [20, 40],
+    description: "Casa tradicional de 1948, doces de vitrine e café coado no pano.",
+    highlights: ["Tradicional", "Café da manhã", "Balcão"],
+    facilities: ["cards", "accessible", "ac", "wifi"],
+    address: "Av. Nossa Senhora de Copacabana, 900 - Copacabana, Rio de Janeiro - RJ",
+    city: "rio-de-janeiro",
+    coords: { lat: -22.9711, lng: -43.1822 },
+    placeId: "",
+    phone: "(21) 2255-3030",
+    delivery: true,
+    reservation: false,
+    photo: "https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=1200&q=80",
+    hours: [["07:00-20:00"], ["06:30-21:00"], ["06:30-21:00"], ["06:30-21:00"], ["06:30-22:00"], ["06:30-22:00"], ["07:00-22:00"]],
+    menu: [
+      {
+        section: "Vitrine",
+        items: [
+          { name: "Bomba de Chocolate", price: 14, veg: true, popular: true, description: "Recheio de creme e cobertura brilhante" },
+          { name: "Sonho de Creme", price: 12, veg: true, description: "Massa fofa polvilhada com açúcar" },
+          { name: "Quindim", price: 10, veg: true, description: "Gema, coco e muito brilho" },
+          { name: "Fatia de Bolo Prestígio", price: 16, veg: true, description: "Chocolate e coco" }
+        ]
+      },
+      {
+        section: "Salgados",
+        items: [
+          { name: "Pão de Queijo (2 un.)", price: 9, veg: true, popular: true, description: "Assado a cada 20 minutos" },
+          { name: "Empada de Camarão", price: 18, description: "Massa amanteigada, recheio cremoso" },
+          { name: "Misto Quente na Chapa", price: 16, description: "Pão francês, presunto e queijo" }
+        ]
+      },
+      {
+        section: "Cafés",
+        items: [
+          { name: "Café Coado", price: 6, veg: true, description: "Xícara pequena, do jeito carioca" },
+          { name: "Pingado", price: 8, veg: true, description: "Café com leite quente" },
+          { name: "Chocolate Quente", price: 14, veg: true, description: "Com raspas de chocolate meio amargo" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "churrascaria-aterro",
+    name: "Churrascaria Aterro",
+    cuisine: "Churrasco",
+    categories: ["churrasco", "brasileira"],
+    rating: 4.4,
+    reviews: 928,
+    priceLevel: 4,
+    avgPerPerson: [140, 220],
+    description: "Rodízio clássico carioca com carrinho de sobremesas e vista do Aterro.",
+    highlights: ["Rodízio", "Estacionamento", "Aceita reserva"],
+    facilities: ["parking", "ac", "cards", "accessible", "bar", "kids"],
+    address: "Av. Infante Dom Henrique, 200 - Flamengo, Rio de Janeiro - RJ",
+    city: "rio-de-janeiro",
+    coords: { lat: -22.935, lng: -43.175 },
+    placeId: "",
+    phone: "(21) 2205-9090",
+    delivery: false,
+    reservation: true,
+    photo: "https://images.unsplash.com/photo-1544025162-d76694265947?w=1200&q=80",
+    hours: [["11:30-22:00"], ["11:30-23:00"], ["11:30-23:00"], ["11:30-23:00"], ["11:30-23:30"], ["11:30-00:00"], ["11:30-23:30"]],
+    menu: [
+      {
+        section: "Rodízio",
+        items: [
+          { name: "Rodízio Completo", price: 189, popular: true, description: "18 cortes, buffet de frios, sushi e sobremesa" },
+          { name: "Rodízio Infantil (até 10 anos)", price: 94, description: "Metade do valor por criança" },
+          { name: "Somente Buffet", price: 98, veg: true, description: "Saladas, frios e pratos quentes" }
+        ]
+      },
+      {
+        section: "Cortes à la carte",
+        items: [
+          { name: "Picanha Fatiada (500g)", price: 198, popular: true, description: "Serve 2, com farofa e vinagrete" },
+          { name: "Fraldinha na Brasa (400g)", price: 156, description: "Selada na chapa quente" },
+          { name: "Costela Fogo de Chão", price: 172, description: "Assada por 8 horas" }
+        ]
+      },
+      {
+        section: "Sobremesas",
+        items: [
+          { name: "Abacaxi Grelhado com Canela", price: 26, veg: true, description: "Direto da grelha" },
+          { name: "Petit Gateau", price: 34, veg: true, description: "Com sorvete de creme" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "pizzaria-lagoa",
+    name: "Pizzaria Lagoa",
+    cuisine: "Pizza",
+    categories: ["pizza", "italiana"],
+    rating: 4.6,
+    reviews: 743,
+    priceLevel: 3,
+    avgPerPerson: [60, 95],
+    description: "Pizza de borda fina com vista para a Lagoa Rodrigo de Freitas.",
+    highlights: ["Delivery", "Área externa", "Aceita reserva"],
+    facilities: ["outdoor", "bar", "cards", "parking", "accessible"],
+    address: "Av. Epitácio Pessoa, 1560 - Lagoa, Rio de Janeiro - RJ",
+    city: "rio-de-janeiro",
+    coords: { lat: -22.97, lng: -43.205 },
+    placeId: "",
+    phone: "(21) 2523-6060",
+    delivery: true,
+    reservation: true,
+    photo: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200&q=80",
+    hours: [["18:00-23:30"], ["18:30-23:30"], ["18:30-23:30"], ["18:30-23:30"], ["18:30-00:30"], ["18:00-01:00"], ["18:00-01:00"]],
+    menu: [
+      {
+        section: "Pizzas Salgadas",
+        items: [
+          { name: "Mussarela de Búfala", price: 68, veg: true, popular: true, description: "Tomate italiano, búfala e manjericão fresco" },
+          { name: "Portuguesa", price: 64, description: "Presunto, ovo, cebola, azeitona e ervilha" },
+          { name: "Frango com Catupiry", price: 66, description: "Frango desfiado e requeijão cremoso" },
+          { name: "Vegetariana da Casa", price: 62, veg: true, description: "Abobrinha, berinjela, pimentão e rúcula" }
+        ]
+      },
+      {
+        section: "Pizzas Doces",
+        items: [
+          { name: "Banana com Canela", price: 54, veg: true, description: "Com açúcar mascavo e leite condensado" },
+          { name: "Romeu e Julieta", price: 56, veg: true, description: "Goiabada cascão e queijo minas" }
+        ]
+      },
+      {
+        section: "Entradas",
+        items: [
+          { name: "Pão de Alho na Brasa", price: 24, veg: true, description: "4 unidades" },
+          { name: "Bruschetta de Tomate", price: 34, veg: true, description: "Com azeite e orégano fresco" }
+        ]
+      }
+    ]
+  },
+
+  /* ======================== Belo Horizonte ======================== */
+
+  {
+    id: "botequim-da-serra",
+    name: "Botequim da Serra",
+    cuisine: "Brasileira",
+    categories: ["brasileira"],
+    rating: 4.8,
+    reviews: 1289,
+    priceLevel: 2,
+    avgPerPerson: [40, 70],
+    description: "Boteco premiado da Serra, com tira-gostos mineiros e cerveja bem gelada.",
+    highlights: ["Área externa", "Prêmio Comida di Buteco", "Pet friendly"],
+    facilities: ["outdoor", "bar", "cards", "pet", "music"],
+    address: "R. Ouro Fino, 452 - Serra, Belo Horizonte - MG",
+    city: "belo-horizonte",
+    coords: { lat: -19.9432, lng: -43.92 },
+    placeId: "",
+    phone: "(31) 3223-7070",
+    delivery: false,
+    reservation: false,
+    photo: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80",
+    hours: [["11:00-20:00"], null, ["16:00-00:00"], ["16:00-00:00"], ["16:00-01:00"], ["11:00-02:00"], ["11:00-01:00"]],
+    menu: [
+      {
+        section: "Tira-gostos",
+        items: [
+          { name: "Torresmo de Rolo", price: 46, popular: true, description: "Crocante por fora, macio por dentro, com limão" },
+          { name: "Frango com Quiabo na Panela", price: 52, description: "Servido com angu cremoso" },
+          { name: "Linguiça Artesanal de Lagoa", price: 42, description: "Com cebola caramelizada e pão" },
+          { name: "Bolinho de Feijão Tropeiro (6 un.)", price: 38, description: "Com molho de pimenta biquinho" }
+        ]
+      },
+      {
+        section: "Pratos",
+        items: [
+          { name: "Feijão Tropeiro Completo", price: 68, popular: true, description: "Serve 2, com couve, torresmo e ovo" },
+          { name: "Costelinha na Cachaça", price: 74, description: "Com mandioca frita e vinagrete" }
+        ]
+      },
+      {
+        section: "Bar",
+        items: [
+          { name: "Cerveja Long Neck", price: 13, description: "Sempre a 2 graus" },
+          { name: "Cachaça Artesanal (dose)", price: 16, description: "Seleção de alambiques mineiros" },
+          { name: "Caipirinha de Maracujá", price: 24, description: "Com cachaça envelhecida" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "cafe-savassi",
+    name: "Café Savassi",
+    cuisine: "Cafeteria",
+    categories: ["cafeteria", "doces"],
+    rating: 4.7,
+    reviews: 486,
+    priceLevel: 2,
+    avgPerPerson: [28, 50],
+    description: "Cafés do Sul de Minas em métodos filtrados e pão de queijo o dia todo.",
+    highlights: ["WiFi gratuito", "Bom pra trabalhar", "Café da manhã"],
+    facilities: ["wifi", "outdoor", "cards", "accessible", "ac"],
+    address: "R. Antônio de Albuquerque, 620 - Savassi, Belo Horizonte - MG",
+    city: "belo-horizonte",
+    coords: { lat: -19.938, lng: -43.933 },
+    placeId: "",
+    phone: "(31) 3287-1515",
+    delivery: true,
+    reservation: false,
+    photo: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&q=80",
+    hours: [["08:00-16:00"], ["07:00-20:00"], ["07:00-20:00"], ["07:00-20:00"], ["07:00-21:00"], ["07:30-21:00"], ["08:00-19:00"]],
+    menu: [
+      {
+        section: "Cafés",
+        items: [
+          { name: "Espresso do Sul de Minas", price: 8, veg: true, description: "Torra média, notas de chocolate" },
+          { name: "Coado Prensa Francesa", price: 16, veg: true, popular: true, description: "Serve 2 xícaras" },
+          { name: "Latte com Doce de Leite", price: 18, veg: true, description: "Doce de leite da fazenda" }
+        ]
+      },
+      {
+        section: "Da chapa",
+        items: [
+          { name: "Pão de Queijo (3 un.)", price: 12, veg: true, popular: true, description: "Queijo canastra, assado na hora" },
+          { name: "Tostex de Queijo Minas", price: 22, veg: true, description: "Pão de forma artesanal prensado" },
+          { name: "Broa de Fubá", price: 10, veg: true, description: "Fatia generosa, com erva-doce" }
+        ]
+      },
+      {
+        section: "Café da manhã",
+        items: [
+          { name: "Combo Mineiro", price: 42, veg: true, description: "Café, suco, pão de queijo, ovos e frutas" },
+          { name: "Tapioca de Queijo e Tomate", price: 26, veg: true, description: "Massa fininha, feita na hora" }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "horta-mineira",
+    name: "Horta Mineira",
+    cuisine: "Vegetariana",
+    categories: ["vegetariana", "brasileira"],
+    rating: 4.9,
+    reviews: 331,
+    priceLevel: 2,
+    avgPerPerson: [35, 58],
+    description: "Comida mineira vegetariana no fogão a lenha, com legumes de produtores locais.",
+    highlights: ["Delivery", "Buffet no almoço", "Sem glúten"],
+    facilities: ["outdoor", "cards", "accessible", "wifi", "pet"],
+    address: "R. Aarão Reis, 180 - Santo Antônio, Belo Horizonte - MG",
+    city: "belo-horizonte",
+    coords: { lat: -19.953, lng: -43.943 },
+    placeId: "",
+    phone: "(31) 3296-4422",
+    delivery: true,
+    reservation: false,
+    photo: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1200&q=80",
+    hours: [null, ["11:00-15:30"], ["11:00-15:30"], ["11:00-15:30"], ["11:00-15:30"], ["11:00-15:30", "18:30-22:00"], ["11:00-16:00"]],
+    menu: [
+      {
+        section: "Almoço",
+        items: [
+          { name: "Buffet Vegetariano (por pessoa)", price: 52, veg: true, popular: true, description: "Mais de 15 pratos, sobremesa inclusa" },
+          { name: "Tutu de Feijão Vegano", price: 46, veg: true, description: "Com couve, angu e banana frita" },
+          { name: "Ora-pro-nóbis na Panela", price: 48, veg: true, description: "Refogado com milho verde e arroz" }
+        ]
+      },
+      {
+        section: "Da horta",
+        items: [
+          { name: "Salada de Folhas Orgânicas", price: 32, veg: true, description: "Colhidas na manhã do dia" },
+          { name: "Legumes Assados no Lenha", price: 38, veg: true, description: "Com pesto de manjericão" }
+        ]
+      },
+      {
+        section: "Sobremesas",
+        items: [
+          { name: "Doce de Abóbora com Coco", price: 16, veg: true, description: "Receita da vovó, em calda" },
+          { name: "Goiabada Cascão com Queijo", price: 18, veg: true, popular: true, description: "Queijo canastra meia-cura" }
+        ]
+      }
+    ]
+  }
+];
+
+/* ---- js/maps.js ---- */
+/* ============================================================
+   FoodRadar — adaptador do Google Maps
+   ------------------------------------------------------------
+   Tudo aqui é OPCIONAL e degrada com elegância: sem API key
+   (ou com a rede fora), o app continua funcionando com os
+   dados locais e o mapa vira um placeholder clicável.
+
+   O que o Google entrega de verdade:
+     ✔ coordenadas, endereço formatado, mapa e rota
+     ✔ horário de funcionamento oficial + "aberto agora"
+     ✔ fotos do lugar, nota e nº de avaliações
+     ✘ cardápio item a item com preço  → isso é dado NOSSO
+   ============================================================ */
+(function (global) {
+  "use strict";
+
+  var CFG = global.FR_CONFIG || {};
+  var loadPromise = null;
+
+  function hasKey() {
+    return typeof CFG.GOOGLE_MAPS_API_KEY === "string" && CFG.GOOGLE_MAPS_API_KEY.trim().length > 0;
+  }
+
+  /* ---------- carregamento sob demanda da Maps JavaScript API ---------- */
+  function load() {
+    if (!hasKey()) return Promise.reject(new Error("sem-api-key"));
+    if (loadPromise) return loadPromise;
+
+    loadPromise = new Promise(function (resolve, reject) {
+      if (global.google && global.google.maps) return resolve(global.google.maps);
+
+      var cbName = "__frMapsReady";
+      var timer = setTimeout(function () { reject(new Error("timeout")); }, 12000);
+
+      global[cbName] = function () {
+        clearTimeout(timer);
+        resolve(global.google.maps);
+      };
+
+      var s = document.createElement("script");
+      s.async = true;
+      s.src = "https://maps.googleapis.com/maps/api/js" +
+        "?key=" + encodeURIComponent(CFG.GOOGLE_MAPS_API_KEY) +
+        "&v=weekly&libraries=places,marker&loading=async&language=pt-BR&region=BR" +
+        "&callback=" + cbName;
+      s.onerror = function () { clearTimeout(timer); reject(new Error("script-error")); };
+      document.head.appendChild(s);
+    }).catch(function (err) {
+      loadPromise = null;
+      throw err;
+    });
+
+    return loadPromise;
+  }
+
+  /* ---------- distância (não precisa de API) ---------- */
+  function haversineKm(a, b) {
+    if (!a || !b) return null;
+    var R = 6371;
+    var dLat = (b.lat - a.lat) * Math.PI / 180;
+    var dLng = (b.lng - a.lng) * Math.PI / 180;
+    var la1 = a.lat * Math.PI / 180, la2 = b.lat * Math.PI / 180;
+    var h = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(la1) * Math.cos(la2);
+    return 2 * R * Math.asin(Math.sqrt(h));
+  }
+
+  function formatDistance(km) {
+    if (km == null) return "";
+    var meters = Math.round(km * 1000 / 50) * 50;
+    if (meters < 1000) return meters + " m";
+    return (meters / 1000).toFixed(1).replace(".", ",") + " km";
+  }
+
+  /* ---------- localização do usuário ---------- */
+  function getUserLocation() {
+    return new Promise(function (resolve, reject) {
+      if (!navigator.geolocation) return reject(new Error("sem-geolocation"));
+      navigator.geolocation.getCurrentPosition(
+        function (pos) { resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }); },
+        function (err) { reject(err); },
+        { enableHighAccuracy: false, timeout: 9000, maximumAge: 300000 }
+      );
+    });
+  }
+
+  /* ---------- nome do bairro a partir das coordenadas ---------- */
+  function reverseGeocode(coords) {
+    return load().then(function (maps) {
+      var geocoder = new maps.Geocoder();
+      return geocoder.geocode({ location: coords }).then(function (res) {
+        var r = res.results && res.results[0];
+        if (!r) return null;
+        var pick = function (type) {
+          var c = (r.address_components || []).find(function (x) { return x.types.indexOf(type) >= 0; });
+          return c ? c.short_name : null;
+        };
+        var bairro = pick("sublocality_level_1") || pick("sublocality") || pick("administrative_area_level_2");
+        var uf = pick("administrative_area_level_1");
+        return bairro ? (uf ? bairro + ", " + uf : bairro) : r.formatted_address;
+      });
+    });
+  }
+
+  /* ---------- mapa embutido (ou placeholder) ---------- */
+  var PIN_SVG =
+    '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">' +
+    '<path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>';
+
+  function renderFallback(el) {
+    el.innerHTML = '<div class="map-fallback"><div class="map-pin">' + PIN_SVG + "</div></div>";
+  }
+
+  /* ---------- Leaflet + OpenStreetMap ----------
+     Sem chave, sem cartão, sem cota. Carregado sob demanda:
+     quem nunca abre uma página de restaurante não baixa nada.  */
+  var LEAFLET = {
+    css: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css",
+    js: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"
+  };
+  var leafletPromise = null;
+
+  function loadLeaflet() {
+    if (leafletPromise) return leafletPromise;
+
+    leafletPromise = new Promise(function (resolve, reject) {
+      if (global.L && global.L.map) return resolve(global.L);
+
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = LEAFLET.css;
+      document.head.appendChild(link);
+
+      var timer = setTimeout(function () { reject(new Error("timeout")); }, 12000);
+      var s = document.createElement("script");
+      s.async = true;
+      s.src = LEAFLET.js;
+      s.onload = function () {
+        clearTimeout(timer);
+        if (global.L && global.L.map) resolve(global.L);
+        else reject(new Error("sem-leaflet"));
+      };
+      s.onerror = function () { clearTimeout(timer); reject(new Error("script-error")); };
+      document.head.appendChild(s);
+    }).catch(function (err) {
+      leafletPromise = null;
+      throw err;
+    });
+
+    return leafletPromise;
+  }
+
+  /* Qual motor desenha o mapa. */
+  function mapProvider() {
+    var p = CFG.MAP_PROVIDER || "auto";
+    if (p === "auto") return hasKey() ? "google" : "osm";
+    if (p === "google" && !hasKey()) return "osm";   // pediu Google sem chave
+    return p;
+  }
+
+  var activeMap = null;   // só um mapa vivo por vez — evita listener vazando
+
+  function destroyActiveMap() {
+    if (activeMap && typeof activeMap.remove === "function") {
+      try { activeMap.remove(); } catch (e) { /* já foi embora com o DOM */ }
+    }
+    activeMap = null;
+  }
+
+  function renderGoogleMap(el, coords, title) {
+    return load().then(function (maps) {
+      el.innerHTML = "";
+      var map = new maps.Map(el, {
+        center: coords,
+        zoom: 16,
+        disableDefaultUI: true,
+        gestureHandling: "cooperative",
+        clickableIcons: false
+      });
+      new maps.Marker({ position: coords, map: map, title: title || "" });
+    });
+  }
+
+  function renderOsmMap(el, coords, title) {
+    return loadLeaflet().then(function (L) {
+      destroyActiveMap();
+      el.innerHTML = "";
+
+      var map = L.map(el, {
+        zoomControl: false,        // 150px de altura não comporta o controle
+        scrollWheelZoom: false,    // não sequestra a rolagem da página
+        attributionControl: true   // atribuição do OSM é obrigatória (ODbL)
+      }).setView([coords.lat, coords.lng], 16);
+
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
+      }).addTo(map);
+
+      L.marker([coords.lat, coords.lng], {
+        title: title || "",
+        icon: L.divIcon({
+          className: "fr-pin",
+          html: '<span class="map-pin">' + PIN_SVG + "</span>",
+          iconSize: [34, 34],
+          iconAnchor: [17, 17]
+        })
+      }).addTo(map);
+
+      activeMap = map;
+      return map;
+    });
+  }
+
+  function renderMap(el, coords, title) {
+    if (!el) return;
+    renderFallback(el);
+    if (!coords) return;
+
+    var which = mapProvider();
+    if (which === "none") return;
+
+    var job = which === "google"
+      ? renderGoogleMap(el, coords, title)
+      : renderOsmMap(el, coords, title);
+
+    job.catch(function () { renderFallback(el); });
+  }
+
+  /* ---------- enriquecer um restaurante com dados do Places ---------- */
+  /* Retorna um objeto só com os campos que o Google conseguiu preencher.
+     O app faz o merge — dados locais continuam valendo como fallback.   */
+  function enrich(restaurant) {
+    if (!hasKey() || !restaurant) return Promise.resolve(null);
+
+    return load().then(function (maps) {
+      var Place = maps.places && maps.places.Place;
+      if (!Place) return null;
+
+      var fields = [
+        "id", "displayName", "formattedAddress", "location",
+        "rating", "userRatingCount", "priceLevel",
+        "regularOpeningHours", "photos", "nationalPhoneNumber", "websiteURI"
+      ];
+
+      var query = restaurant.name + " " + (restaurant.address || "");
+      return Place.searchByText({
+        textQuery: query,
+        fields: fields,
+        language: "pt-BR",
+        region: "br",
+        maxResultCount: 1,
+        locationBias: restaurant.coords ? { center: restaurant.coords, radius: 3000 } : undefined
+      }).then(function (res) {
+        var p = res && res.places && res.places[0];
+        if (!p) return null;
+
+        var out = { source: "google", placeId: p.id };
+        if (p.formattedAddress) out.address = p.formattedAddress;
+        if (p.location) out.coords = { lat: p.location.lat(), lng: p.location.lng() };
+        if (typeof p.rating === "number") out.rating = p.rating;
+        if (typeof p.userRatingCount === "number") out.reviews = p.userRatingCount;
+        if (p.nationalPhoneNumber) out.phone = p.nationalPhoneNumber;
+        if (p.websiteURI) out.website = p.websiteURI;
+
+        if (p.regularOpeningHours) {
+          out.hoursText = p.regularOpeningHours.weekdayDescriptions || null;
+          if (typeof p.regularOpeningHours.isOpen === "function") {
+            try { out.openNow = p.regularOpeningHours.isOpen(); } catch (e) { /* ignora */ }
+          }
+        }
+        if (p.photos && p.photos.length) {
+          try { out.photo = p.photos[0].getURI({ maxWidth: 1200 }); } catch (e) { /* ignora */ }
+        }
+        return out;
+      });
+    }).catch(function () { return null; });
+  }
+
+  /* ---------- autocomplete de lugares ----------
+     Com API key: Places Autocomplete (qualquer cidade, bairro ou
+     endereço do Brasil). Sem key: filtra a lista de js/data.js.   */
+  var predictionCache = {};   // id -> objeto de predição do Google
+  var sessionToken = null;
+
+  function normalize(s) {
+    return String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  }
+
+  function searchPlacesLocal(input) {
+    var q = normalize(input).trim();
+    if (!q) return [];
+    var places = global.PLACES || [];
+    return places
+      .filter(function (p) { return normalize(p.name).indexOf(q) >= 0; })
+      .sort(function (a, b) {
+        // quem começa com o termo digitado aparece primeiro
+        var ai = normalize(a.name).indexOf(q), bi = normalize(b.name).indexOf(q);
+        return ai - bi || a.name.localeCompare(b.name);
+      })
+      .slice(0, 6)
+      .map(function (p) {
+        return {
+          id: "local:" + p.name + "-" + p.uf,
+          main: p.name,
+          secondary: p.uf + ", Brasil",
+          coords: p.coords
+        };
+      });
+  }
+
+  /* Photon (OpenStreetMap) — cobre o Brasil inteiro: cidade, bairro,
+     rua. Sem chave, sem cartão. É o geocoder feito para type-ahead;
+     o Nominatim proíbe esse uso na política dele.                    */
+  var PHOTON = "https://photon.komoot.io/api/";
+
+  // ruído que não serve como ponto de partida (entrada de metrô, etc.)
+  var PHOTON_KEYS = ["place", "boundary", "highway", "building", "addr", "landuse"];
+
+  function searchPlacesPhoton(input) {
+    var url = PHOTON + "?q=" + encodeURIComponent(input) + "&limit=12";
+
+    return fetch(url).then(function (res) {
+      if (!res.ok) throw new Error("http-" + res.status);
+      return res.json();
+    }).then(function (data) {
+      var seen = {};
+
+      return (data.features || [])
+        .filter(function (f) {
+          var p = f.properties || {};
+          if (p.countrycode !== "BR") return false;
+          return PHOTON_KEYS.indexOf(p.osm_key) >= 0;
+        })
+        .map(function (f) {
+          var p = f.properties;
+          var c = f.geometry.coordinates;     // [lng, lat]
+
+          // "Vila Mariana" / "São Paulo, SP, Brasil"
+          var tail = [];
+          if (p.city && p.city !== p.name) tail.push(p.city);
+          if (p.state && p.state !== p.name) tail.push(p.state);
+          tail.push("Brasil");
+
+          return {
+            id: "photon:" + p.osm_type + p.osm_id,
+            main: p.name || p.street || p.city,
+            secondary: tail.join(", "),
+            coords: { lat: c[1], lng: c[0] }
+          };
+        })
+        .filter(function (s) {
+          if (!s.main) return false;
+          var k = (s.main + "|" + s.secondary).toLowerCase();
+          if (seen[k]) return false;
+          seen[k] = true;
+          return true;
+        })
+        .slice(0, 6);
+    }).catch(function () {
+      return searchPlacesLocal(input);       // rede fora: lista local
+    });
+  }
+
+  function searchPlaces(input) {
+    if (!hasKey()) return searchPlacesPhoton(input);
+
+    return load().then(function (maps) {
+      var AS = maps.places && maps.places.AutocompleteSuggestion;
+      if (!AS) return searchPlacesLocal(input);
+
+      if (!sessionToken) sessionToken = new maps.places.AutocompleteSessionToken();
+
+      return AS.fetchAutocompleteSuggestions({
+        input: input,
+        includedRegionCodes: ["br"],
+        language: "pt-BR",
+        region: "br",
+        sessionToken: sessionToken
+      }).then(function (res) {
+        return (res.suggestions || []).slice(0, 6).map(function (s) {
+          var p = s.placePrediction;
+          predictionCache[p.placeId] = p;
+          return {
+            id: p.placeId,
+            main: p.mainText ? p.mainText.text : p.text.text,
+            secondary: p.secondaryText ? p.secondaryText.text : "",
+            coords: null              // resolvido só quando a pessoa escolher
+          };
+        });
+      });
+    }).catch(function () {
+      return searchPlacesLocal(input);
+    });
+  }
+
+  /* Converte uma sugestão em { label, coords }. */
+  function resolvePlace(suggestion) {
+    if (suggestion.coords) {
+      return Promise.resolve({
+        label: suggestion.main + (suggestion.secondary ? " - " + suggestion.secondary.split(",")[0] : ""),
+        coords: suggestion.coords
+      });
+    }
+
+    var pred = predictionCache[suggestion.id];
+    if (!pred) return Promise.reject(new Error("sem-predicao"));
+
+    return load().then(function () {
+      var place = pred.toPlace();
+      return place.fetchFields({ fields: ["location", "displayName", "formattedAddress"] }).then(function (r) {
+        var p = r.place || place;
+        sessionToken = null;          // encerra a sessão de billing
+        return {
+          label: (p.displayName || suggestion.main),
+          coords: { lat: p.location.lat(), lng: p.location.lng() }
+        };
+      });
+    });
+  }
+
+  /* ---------- links externos ---------- */
+  function directionsUrl(r) {
+    if (r.placeId) {
+      return "https://www.google.com/maps/dir/?api=1&destination=" +
+        encodeURIComponent(r.address || r.name) + "&destination_place_id=" + encodeURIComponent(r.placeId);
+    }
+    var dest = r.coords ? r.coords.lat + "," + r.coords.lng : (r.address || r.name);
+    return "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(dest);
+  }
+
+  function placeUrl(r) {
+    return "https://www.google.com/maps/search/?api=1&query=" +
+      encodeURIComponent(r.name + " " + (r.address || "")) +
+      (r.placeId ? "&query_place_id=" + encodeURIComponent(r.placeId) : "");
+  }
+
+  global.Maps = {
+    hasKey: hasKey,
+    load: load,
+    haversineKm: haversineKm,
+    formatDistance: formatDistance,
+    getUserLocation: getUserLocation,
+    reverseGeocode: reverseGeocode,
+    searchPlaces: searchPlaces,
+    resolvePlace: resolvePlace,
+    renderMap: renderMap,
+    enrich: enrich,
+    directionsUrl: directionsUrl,
+    placeUrl: placeUrl
+  };
+})(window);
+
+/* ---- js/osm.js ---- */
+/* ============================================================
+   FoodRadar — catálogo aberto (OpenStreetMap via Overpass API)
+   ------------------------------------------------------------
+   Cobre o Brasil inteiro sem chave e sem cartão. Entrega o que
+   o OSM sabe: nome, tipo de cozinha, coordenada, e às vezes
+   endereço, telefone e horário.
+
+   NÃO entrega cardápio nem preço — esses continuam sendo dado
+   próprio da plataforma. Um restaurante vindo daqui aparece
+   marcado como "cardápio ainda não cadastrado".
+
+   IMPORTANTE — política de uso:
+   O Overpass é mantido por voluntários. Este arquivo só o
+   consulta quando a região não tem NENHUM restaurante próprio
+   cadastrado, guarda o resultado por 24h no localStorage e faz
+   no máximo uma requisição por vez. Em produção o certo é rodar
+   isso offline, uma vez, e gravar no seu banco — não do
+   navegador de cada visitante.
+   ============================================================ */
+(function (global) {
+  "use strict";
+
+  /* Instâncias públicas com cobertura MUNDIAL, tentadas em ordem.
+     São servidores voluntários e vivem sobrecarregados — quando um
+     devolve 504 ou uma página de erro sem cabeçalho CORS, o navegador
+     reporta "Failed to fetch"; por isso mais de um espelho.
+
+     Atenção ao acrescentar espelhos: vários são REGIONAIS (o
+     overpass.osm.ch, por exemplo, só tem a Suíça). Um espelho regional
+     responde HTTP 200 com zero elementos, e o app conclui que não
+     existe restaurante nenhum na região — pior que um erro. */
+  var ENDPOINTS = [
+    "https://overpass-api.de/api/interpreter",
+    "https://overpass.kumi.systems/api/interpreter"
+  ];
+
+  var CACHE_PREFIX = "foodradar:osm:";
+  var CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+  var inFlight = null;
+
+  /* ---------- tradução de tags do OSM para o vocabulário do app ---------- */
+
+  var CUISINE_TO_CATEGORY = {
+    italian: "italiana", pizza: "pizza", pasta: "italiana",
+    japanese: "japonesa", sushi: "japonesa", ramen: "japonesa", asian: "japonesa",
+    burger: "hamburguer", american: "hamburguer", sandwich: "hamburguer",
+    brazilian: "brasileira", regional: "brasileira", mineira: "brasileira",
+    barbecue: "churrasco", steak_house: "churrasco", churrascaria: "churrasco",
+    vegetarian: "vegetariana", vegan: "vegetariana", salad: "vegetariana",
+    arab: "arabe", lebanese: "arabe", kebab: "arabe", turkish: "arabe",
+    mexican: "mexicana", "tex-mex": "mexicana",
+    seafood: "frutos-do-mar", fish: "frutos-do-mar",
+    coffee_shop: "cafeteria", coffee: "cafeteria", breakfast: "cafeteria",
+    cake: "doces", ice_cream: "doces", dessert: "doces", donut: "doces",
+    bakery: "doces", chocolate: "doces"
+  };
+
+  var CUISINE_LABEL = {
+    italiana: "Italiana", pizza: "Pizza", japonesa: "Japonesa",
+    hamburguer: "Hambúrguer", brasileira: "Brasileira", churrasco: "Churrasco",
+    vegetariana: "Vegetariana", arabe: "Árabe", mexicana: "Mexicana",
+    "frutos-do-mar": "Frutos do mar", cafeteria: "Cafeteria", doces: "Doces"
+  };
+
+  var AMENITY_LABEL = {
+    restaurant: "Restaurante",
+    cafe: "Cafeteria",
+    fast_food: "Lanchonete",
+    bar: "Bar",
+    ice_cream: "Sorveteria"
+  };
+
+  /* ---------- horário: formato OSM -> array de 7 dias do app ----------
+     Cobre os padrões comuns ("Mo-Sa 10:00-22:00; Su 16:00-22:00",
+     "Mo-Su 09:00-21:00", "24/7", "Tu-Fr 12:00-15:00,19:00-23:00").
+     Qualquer coisa mais exótica devolve null e a UI mostra o texto cru. */
+
+  var DAY_INDEX = { su: 0, mo: 1, tu: 2, we: 3, th: 4, fr: 5, sa: 6 };
+  var DAY_ORDER = ["su", "mo", "tu", "we", "th", "fr", "sa"];
+
+  function expandDays(token) {
+    var out = [];
+    var ok = true;
+
+    token.split(",").forEach(function (part) {
+      part = part.trim().toLowerCase();
+      var range = part.split("-");
+
+      if (range.length === 2) {
+        var from = DAY_INDEX[range[0]], to = DAY_INDEX[range[1]];
+        if (from === undefined || to === undefined) { ok = false; return; }
+        for (var i = 0; i < 7; i++) {
+          var d = (from + i) % 7;
+          out.push(d);
+          if (d === to) break;
+        }
+      } else {
+        var single = DAY_INDEX[part];
+        if (single === undefined) { ok = false; return; }   // PH, SH, etc.
+        out.push(single);
+      }
+    });
+
+    return ok && out.length ? out : null;
+  }
+
+  function padTime(t) {
+    var p = t.split(":");
+    return (p[0].length === 1 ? "0" + p[0] : p[0]) + ":" + p[1];
+  }
+
+  function parseOpeningHours(raw) {
+    if (!raw) return null;
+    var s = String(raw).trim();
+
+    if (s === "24/7") {
+      return [0, 1, 2, 3, 4, 5, 6].map(function () { return ["00:00-24:00"]; });
+    }
+
+    var week = [null, null, null, null, null, null, null];
+    var matched = false;
+
+    s.split(";").forEach(function (rule) {
+      rule = rule.trim();
+      if (!rule) return;
+
+      var m = rule.match(/^([A-Za-z]{2}(?:\s*[-,]\s*[A-Za-z]{2})*)\s+(.+)$/);
+      if (!m) return;
+
+      var days = expandDays(m[1]);
+      if (!days) return;                       // regra de feriado, ignora
+
+      var timePart = m[2].trim();
+      if (/^(off|closed)$/i.test(timePart)) {
+        days.forEach(function (d) { week[d] = null; });
+        matched = true;
+        return;
+      }
+
+      var ranges = timePart.split(",")
+        .map(function (t) { return t.trim(); })
+        .filter(function (t) { return /^\d{1,2}:\d{2}\s*-\s*\d{1,2}:\d{2}$/.test(t); })
+        .map(function (t) {
+          var pair = t.split("-");
+          return padTime(pair[0].trim()) + "-" + padTime(pair[1].trim());
+        });
+
+      if (!ranges.length) return;
+      days.forEach(function (d) { week[d] = (week[d] || []).concat(ranges); });
+      matched = true;
+    });
+
+    return matched ? week : null;
+  }
+
+  /* ---------- normalização de um elemento do Overpass ---------- */
+
+  function buildAddress(tags) {
+    var street = tags["addr:street"];
+    var number = tags["addr:housenumber"];
+    var suburb = tags["addr:suburb"] || tags["addr:neighbourhood"];
+    var city = tags["addr:city"];
+    var uf = tags["addr:state"];
+
+    if (!street && !city) return "";
+
+    var line = street ? (number ? street + ", " + number : street) : "";
+    var tail = [suburb, city].filter(Boolean).join(", ");
+    var out = [line, tail].filter(Boolean).join(" - ");
+    return uf ? out + " - " + uf : out;
+  }
+
+  function toRestaurant(el) {
+    var tags = el.tags || {};
+    if (!tags.name) return null;
+
+    var lat = el.lat != null ? el.lat : (el.center && el.center.lat);
+    var lng = el.lon != null ? el.lon : (el.center && el.center.lon);
+    if (lat == null || lng == null) return null;
+
+    // cuisine pode vir como "pizza;italian" — pega o primeiro que conhecemos
+    var categories = [];
+    String(tags.cuisine || "").split(";").forEach(function (c) {
+      var cat = CUISINE_TO_CATEGORY[c.trim().toLowerCase()];
+      if (cat && categories.indexOf(cat) < 0) categories.push(cat);
+    });
+    if (!categories.length && tags.amenity === "cafe") categories.push("cafeteria");
+
+    var cuisineLabel = categories.length
+      ? CUISINE_LABEL[categories[0]]
+      : (AMENITY_LABEL[tags.amenity] || "Restaurante");
+
+    var facilities = [];
+    if (tags.internet_access === "wlan" || tags.internet_access === "yes") facilities.push("wifi");
+    if (tags.outdoor_seating === "yes") facilities.push("outdoor");
+    if (tags.wheelchair === "yes") facilities.push("accessible");
+    if (tags.air_conditioning === "yes") facilities.push("ac");
+    if (tags["payment:cards"] === "yes" || tags["payment:credit_cards"] === "yes") facilities.push("cards");
+
+    var highlights = [];
+    if (tags.delivery === "yes") highlights.push("Delivery");
+    if (tags.takeaway === "yes") highlights.push("Para viagem");
+    if (tags.outdoor_seating === "yes") highlights.push("Área externa");
+    if (tags.reservation === "yes") highlights.push("Aceita reserva");
+
+    var hours = parseOpeningHours(tags.opening_hours);
+
+    return {
+      id: "osm-" + el.type.charAt(0) + el.id,
+      source: "osm",
+      name: tags.name,
+      cuisine: cuisineLabel,
+      categories: categories,
+      rating: null,
+      reviews: 0,
+      priceLevel: 0,
+      avgPerPerson: null,
+      description: "",
+      highlights: highlights,
+      facilities: facilities,
+      address: buildAddress(tags),
+      city: null,
+      coords: { lat: lat, lng: lng },
+      placeId: "",
+      phone: tags.phone || tags["contact:phone"] || "",
+      website: tags.website || tags["contact:website"] || "",
+      delivery: tags.delivery === "yes",
+      reservation: tags.reservation === "yes",
+      photo: "",
+      hours: hours,
+      hoursRaw: hours ? "" : (tags.opening_hours || ""),
+      menu: []
+    };
+  }
+
+  /* ---------- cache ---------- */
+
+  function cacheKey(coords, radius) {
+    return CACHE_PREFIX + coords.lat.toFixed(2) + "," + coords.lng.toFixed(2) + ":" + radius;
+  }
+
+  function readCache(key) {
+    try {
+      var raw = localStorage.getItem(key);
+      if (!raw) return null;
+      var parsed = JSON.parse(raw);
+      if (Date.now() - parsed.t > CACHE_TTL_MS) { localStorage.removeItem(key); return null; }
+      return parsed.list;
+    } catch (e) { return null; }
+  }
+
+  function writeCache(key, list) {
+    try { localStorage.setItem(key, JSON.stringify({ t: Date.now(), list: list })); }
+    catch (e) { /* cota cheia ou modo privado — segue sem cache */ }
+  }
+
+  /* ---------- consulta ---------- */
+
+  function buildQuery(coords, radius) {
+    var filter = '["amenity"~"^(restaurant|cafe|fast_food)$"]["name"]';
+    var around = "(around:" + radius + "," + coords.lat + "," + coords.lng + ")";
+    return "[out:json][timeout:25];(" +
+      "node" + filter + around + ";" +
+      "way" + filter + around + ";" +
+      ");out center 60;";
+  }
+
+  function fetchFrom(endpoint, query) {
+    var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+    var timer = controller && setTimeout(function () { controller.abort(); }, 20000);
+
+    return fetch(endpoint + "?data=" + encodeURIComponent(query), {
+      signal: controller ? controller.signal : undefined
+    }).then(function (res) {
+      if (timer) clearTimeout(timer);
+      if (!res.ok) throw new Error("http-" + res.status);
+      return res.json();
+    });
+  }
+
+  /* Tenta os espelhos em sequência; só desiste quando todos falham. */
+  function fetchWithMirrors(query) {
+    return ENDPOINTS.reduce(function (chain, endpoint) {
+      return chain.catch(function () { return fetchFrom(endpoint, query); });
+    }, Promise.reject(new Error("start")));
+  }
+
+  /**
+   * Restaurantes reais num raio ao redor do ponto.
+   * @param {{lat:number,lng:number}} coords
+   * @param {number} radius metros (padrão 2500)
+   * @returns {Promise<Array>} lista normalizada (pode vir vazia).
+   *          Rejeita se nenhum espelho do Overpass respondeu.
+   */
+  function searchNearby(coords, radius) {
+    radius = radius || 2500;
+
+    var key = cacheKey(coords, radius);
+    var cached = readCache(key);
+    if (cached) return Promise.resolve(cached);
+
+    if (inFlight) return inFlight;           // uma requisição por vez
+
+    var query = buildQuery(coords, radius);
+
+    inFlight = fetchWithMirrors(query)
+      .then(function (data) {
+        var list = (data.elements || [])
+          .map(toRestaurant)
+          .filter(Boolean);
+
+        // sem duplicar nome no mesmo quarteirão
+        var seen = {};
+        list = list.filter(function (r) {
+          var k = r.name.toLowerCase() + "|" + r.coords.lat.toFixed(3);
+          if (seen[k]) return false;
+          seen[k] = true;
+          return true;
+        });
+
+        writeCache(key, list);
+        inFlight = null;
+        return list;
+      })
+      .catch(function (err) {
+        inFlight = null;
+        throw err;                           // quem chamou decide o que mostrar
+      });
+
+    return inFlight;
+  }
+
+  /**
+   * Busca UM elemento pelo id ("osm-n123"). É o que faz um link
+   * compartilhado funcionar em carregamento frio — sem isso, quem
+   * abre a URL direto cai em "restaurante não encontrado", porque a
+   * lista só existe depois de navegar pela home.
+   */
+  function fetchById(id) {
+    var m = String(id).match(/^osm-([nwr])(\d+)$/);
+    if (!m) return Promise.reject(new Error("id-invalido"));
+
+    var kind = { n: "node", w: "way", r: "relation" }[m[1]];
+    var query = "[out:json][timeout:25];" + kind + "(" + m[2] + ");out center 1;";
+
+    return fetchWithMirrors(query).then(function (data) {
+      var el = (data.elements || [])[0];
+      var restaurant = el && toRestaurant(el);
+      if (!restaurant) throw new Error("nao-encontrado");
+      return restaurant;
+    });
+  }
+
+  global.Osm = {
+    searchNearby: searchNearby,
+    fetchById: fetchById,
+    parseOpeningHours: parseOpeningHours     // exposto para teste
+  };
+})(window);
+
+/* ---- js/app.js ---- */
+/* ============================================================
+   FoodRadar — aplicação (router + views)
+   ============================================================ */
+(function () {
+  "use strict";
+
+  var CFG = window.FR_CONFIG;
+  var app = document.getElementById("app");
+
+  /* ============================ estado ============================ */
+  var state = {
+    query: "",
+    category: null,
+    sort: "relevancia",
+    prices: new Set(),
+    features: new Set(),          // delivery | reservation | open
+    userLoc: Object.assign({}, CFG.DEFAULT_LOCATION),
+    locLabel: CFG.DEFAULT_LOCATION.label,
+    locSource: "default",         // default | gps | place
+    favorites: loadFavorites(),
+    googleCache: {},              // id -> dados enriquecidos do Places
+    osm: { key: null, list: [], loading: false, error: false }   // catálogo aberto (OSM)
+  };
+
+  function loadFavorites() {
+    try { return new Set(JSON.parse(localStorage.getItem("foodradar:favs") || "[]")); }
+    catch (e) { return new Set(); }
+  }
+  function saveFavorites() {
+    try { localStorage.setItem("foodradar:favs", JSON.stringify(Array.from(state.favorites))); }
+    catch (e) { /* modo privado — segue sem persistir */ }
+  }
+
+  /* ============================ utilidades ============================ */
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  var brl = new Intl.NumberFormat(CFG.CURRENCY.locale, {
+    style: "currency", currency: CFG.CURRENCY.code, minimumFractionDigits: 2
+  });
+  function money(v) { return brl.format(v); }
+
+  function norm(s) {
+    return String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  }
+
+  var ICONS = {
+    search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',
+    pin: '<path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 1.8"/>',
+    heart: '<path d="M12 20s-7.2-4.4-9-9.1C1.7 7.4 3.6 4.3 6.9 4.3c2 0 3.6 1.2 5.1 3 1.5-1.8 3.1-3 5.1-3 3.3 0 5.2 3.1 3.9 6.6-1.8 4.7-9 9.1-9 9.1z"/>',
+    share: '<circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.4 10.8l7.2-4.2M8.4 13.2l7.2 4.2"/>',
+    star: '<path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5-4.7-4.6 6.5-.95z"/>',
+    back: '<path d="M15 5l-7 7 7 7"/>',
+    chevron: '<path d="M6 9l6 6 6-6"/>',
+    wallet: '<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M16.5 14.5h.01"/>',
+    sparkle: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/>',
+    wifi: '<path d="M2.5 9a15 15 0 0 1 19 0M5.5 12.5a10 10 0 0 1 13 0M8.5 16a5.5 5.5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/>',
+    parking: '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M9.5 17V7.5h3a2.75 2.75 0 0 1 0 5.5h-3"/>',
+    snow: '<path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/>',
+    accessible: '<circle cx="12" cy="4.5" r="1.8"/><path d="M8 8.2l4 1.1 4-1.1M12 9.3V14h3.2l2 4.5M12 14l-2.6 4.8"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/>',
+    paw: '<circle cx="7" cy="9" r="1.9"/><circle cx="12" cy="6.5" r="1.9"/><circle cx="17" cy="9" r="1.9"/><path d="M12 11.5c3 0 5 2.3 5 4.6 0 1.9-1.7 2.9-3.4 2.4-1-.3-2.2-.3-3.2 0-1.7.5-3.4-.5-3.4-2.4 0-2.3 2-4.6 5-4.6z"/>',
+    kids: '<circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/>',
+    glass: '<path d="M6 4h12l-5 7v7M13 18h4M13 18H9"/><path d="M6 4l7 7"/>',
+    music: '<circle cx="7" cy="18" r="2.6"/><circle cx="18" cy="16" r="2.6"/><path d="M9.6 18V7l11-2v11"/>',
+    card: '<rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 10h19M6.5 15h3"/>',
+    phone: '<path d="M6 3.5h3l1.6 4-2 1.4a12 12 0 0 0 6.5 6.5l1.4-2 4 1.6v3c0 1-.8 1.8-1.8 1.7C10.2 19.9 4.1 13.8 3.3 5.3 3.2 4.3 4 3.5 5 3.5z"/>',
+    route: '<circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.5 6H14a3.5 3.5 0 0 1 0 7h-4a3.5 3.5 0 0 0 0 7h5.5"/>'
+  };
+
+  function svg(name, cls) {
+    var p = ICONS[name];
+    if (!p) return "";
+    return '<svg class="' + (cls || "icon") + '" viewBox="0 0 24 24" aria-hidden="true">' + p + "</svg>";
+  }
+
+  function toast(msg) {
+    var el = document.querySelector(".toast");
+    if (!el) {
+      el = document.createElement("div");
+      el.className = "toast";
+      document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    requestAnimationFrame(function () { el.classList.add("show"); });
+    clearTimeout(el._t);
+    el._t = setTimeout(function () { el.classList.remove("show"); }, 2400);
+  }
+
+  /* ============================ horários ============================ */
+  var DAY_NAMES = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+
+  function toMinutes(hhmm) {
+    var p = hhmm.split(":");
+    return parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+  }
+
+  function parseRanges(dayRanges) {
+    if (!dayRanges) return [];
+    return dayRanges.map(function (r) {
+      var p = r.split("-");
+      var start = toMinutes(p[0]);
+      var end = toMinutes(p[1]);
+      if (end <= start) end += 1440;          // atravessa a meia-noite
+      return { start: start, end: end, raw: r, open: p[0], close: p[1] };
+    });
+  }
+
+  /** Retorna { open, label } — "Aberto agora · fecha às 23:00" etc. */
+  function openStatus(r, now) {
+    now = now || new Date();
+    if (!r.hours) return { open: null, label: "Consulte o restaurante" };
+
+    var day = now.getDay();
+    var mins = now.getHours() * 60 + now.getMinutes();
+    var prevDay = (day + 6) % 7;
+
+    // faixa de ontem que ainda não terminou
+    var carry = parseRanges(r.hours[prevDay]).find(function (x) {
+      return x.end > 1440 && (mins + 1440) < x.end;
+    });
+    if (carry) return { open: true, label: "Aberto agora · fecha às " + carry.close };
+
+    var today = parseRanges(r.hours[day]);
+    var current = today.find(function (x) { return mins >= x.start && mins < x.end; });
+    if (current) return { open: true, label: "Aberto agora · fecha às " + current.close };
+
+    var later = today.find(function (x) { return x.start > mins; });
+    if (later) return { open: false, label: "Fechado · abre às " + later.open };
+
+    for (var i = 1; i <= 7; i++) {
+      var d = (day + i) % 7;
+      var next = parseRanges(r.hours[d])[0];
+      if (next) {
+        var when = i === 1 ? "amanhã" : DAY_NAMES[d].toLowerCase();
+        return { open: false, label: "Fechado · abre " + when + " às " + next.open };
+      }
+    }
+    return { open: false, label: "Fechado" };
+  }
+
+  function hoursListHTML(r) {
+    var today = new Date().getDay();
+    var rows = [];
+    for (var i = 1; i <= 7; i++) {
+      var d = i % 7; // começa na segunda
+      var ranges = r.hours && r.hours[d];
+      var text = ranges && ranges.length
+        ? ranges.map(function (x) { return x.replace("-", " às "); }).join(" / ")
+        : '<span class="closed">Fechado</span>';
+      rows.push('<li class="' + (d === today ? "today" : "") + '"><span>' + DAY_NAMES[d] + "</span><span>" + text + "</span></li>");
+    }
+    return '<ul class="hours-list">' + rows.join("") + "</ul>";
+  }
+
+  /* ============================ derivações ============================ */
+  function priceLevelHTML(level) {
+    var out = "";
+    for (var i = 1; i <= 4; i++) {
+      out += '<span class="' + (i <= level ? "on" : "off") + '">$</span>';
+    }
+    return '<span class="price-level">' + out + "</span>";
+  }
+
+  /* 5 estrelas cinzas + camada dourada recortada na proporção exata
+     da nota — 4,7 vira 4 cheias e uma quase cheia, não 5 cheias. */
+  function starsHTML(rating) {
+    var row = "";
+    for (var i = 0; i < 5; i++) row += svg("star");
+    var pct = Math.max(0, Math.min(100, (rating / 5) * 100));
+    return '<span class="stars" role="img" aria-label="Nota ' + rating.toFixed(1) + ' de 5">' +
+      '<span class="stars-bg">' + row + "</span>" +
+      '<span class="stars-fg" style="width:' + pct.toFixed(1) + '%">' + row + "</span>" +
+      "</span>";
+  }
+
+  function cheapestItems(r, n) {
+    var all = [];
+    r.menu.forEach(function (sec) {
+      sec.items.forEach(function (it) { all.push(it); });
+    });
+    var popular = all.filter(function (i) { return i.popular; });
+    var pick = popular.length >= n ? popular : popular.concat(all.filter(function (i) { return !i.popular; }));
+    return pick.slice(0, n);
+  }
+
+  function menuStats(r) {
+    var count = 0, min = Infinity;
+    r.menu.forEach(function (sec) {
+      sec.items.forEach(function (it) {
+        count++;
+        if (it.price < min) min = it.price;
+      });
+    });
+    return { count: count, min: min === Infinity ? null : min };
+  }
+
+  function distanceOf(r) {
+    return window.Maps.haversineKm(state.userLoc, r.coords);
+  }
+
+  /* "900 m de você" quando veio do GPS; "a 900 m" quando a pessoa
+     escolheu outro lugar — aí a distância não é dela, é do ponto. */
+  function distLabel(r) {
+    var d = window.Maps.formatDistance(distanceOf(r));
+    if (!d) return "";
+    return state.locSource === "gps" ? d + " de você" : "a " + d;
+  }
+
+  /* Cidade coberta mais próxima do ponto atual (para o estado vazio). */
+  function nearestCoveredCity() {
+    var best = null;
+    Object.keys(window.CITY_INFO).forEach(function (id) {
+      var c = window.CITY_INFO[id];
+      var km = window.Maps.haversineKm(state.userLoc, c.coords);
+      if (!best || km < best.km) best = { id: id, label: c.label, coords: c.coords, km: km };
+    });
+    return best;
+  }
+
+  function countInCity(cityId) {
+    return window.RESTAURANTS.filter(function (r) { return r.city === cityId; }).length;
+  }
+
+  /* ============ catálogo aberto (OpenStreetMap) ============ */
+
+  /* Restaurantes PRÓPRIOS dentro do raio, sem aplicar filtros.
+     É esse número que decide se vale consultar o Overpass. */
+  function ownNearbyCount() {
+    return window.RESTAURANTS.filter(function (r) {
+      var km = distanceOf(r);
+      return km == null || km <= CFG.NEARBY_RADIUS_KM;
+    }).length;
+  }
+
+  /* Só busca no Overpass onde a plataforma ainda não tem catálogo
+     próprio — respeita a política de uso do serviço. */
+  function ensureOsm(force) {
+    var coords = state.userLoc;
+    var key = coords.lat.toFixed(2) + "," + coords.lng.toFixed(2);
+    if (state.osm.key === key && !force) return;
+
+    state.osm.key = key;
+    state.osm.list = [];
+    state.osm.error = false;
+
+    if (ownNearbyCount() >= 3) { state.osm.loading = false; return; }
+
+    state.osm.loading = true;
+    window.Osm.searchNearby(coords, 2500).then(function (list) {
+      if (state.osm.key !== key) return;          // a pessoa já mudou de lugar
+      state.osm.list = list;
+      state.osm.loading = false;
+      if (currentRoute().name === "home") renderHome();
+    }).catch(function () {
+      if (state.osm.key !== key) return;
+      state.osm.loading = false;
+      state.osm.error = true;                     // servidores do Overpass fora
+      if (currentRoute().name === "home") renderHome();
+    });
+  }
+
+  /* Aplica os mesmos filtros da home ao catálogo aberto, na medida
+     do possível — preço e nota o OSM não tem. */
+  function visibleOsm() {
+    if (state.prices.size) return [];             // sem faixa de preço no OSM
+
+    var q = norm(state.query).trim();
+    var terms = q ? q.split(/\s+/) : [];
+
+    return state.osm.list.filter(function (r) {
+      if (state.category && r.categories.indexOf(state.category) < 0) return false;
+      if (state.features.has("delivery") && !r.delivery) return false;
+      if (state.features.has("reservation") && !r.reservation) return false;
+      if (state.features.has("open") && openStatus(r).open !== true) return false;
+      if (terms.length) {
+        var hay = norm([r.name, r.cuisine, r.address].join(" "));
+        if (!terms.every(function (t) { return hay.indexOf(t) >= 0; })) return false;
+      }
+      return true;
+    }).sort(function (a, b) { return (distanceOf(a) || 0) - (distanceOf(b) || 0); });
+  }
+
+  /* Busca por id em qualquer uma das duas fontes. */
+  function findRestaurant(id) {
+    return window.RESTAURANTS.find(function (x) { return x.id === id; }) ||
+      state.osm.list.find(function (x) { return x.id === id; });
+  }
+
+  function merged(r) {
+    var g = state.googleCache[r.id];
+    return g ? Object.assign({}, r, g) : r;
+  }
+
+  /* ============================ imagem com fallback ============================ */
+  var CUISINE_EMOJI = {
+    italiana: "\u{1F35D}", japonesa: "\u{1F363}", hamburguer: "\u{1F354}", pizza: "\u{1F355}",
+    brasileira: "\u{1F35B}", churrasco: "\u{1F969}", vegetariana: "\u{1F957}", arabe: "\u{1F959}",
+    mexicana: "\u{1F32E}", "frutos-do-mar": "\u{1F990}", cafeteria: "☕", doces: "\u{1F370}"
+  };
+
+  /* Hash do id inteiro — usar só o primeiro caractere daria a mesma
+     cor para todo restaurante vindo do OSM (todos começam com "osm-"). */
+  function hueFor(str) {
+    var h = 0;
+    for (var i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) % 360;
+    return h;
+  }
+
+  function placeholderHTML(r) {
+    var emoji = CUISINE_EMOJI[r.categories[0]] || "\u{1F37D}";
+    return '<div class="ph" style="--ph-hue:' + hueFor(r.name + r.id) + '">' + emoji + "</div>";
+  }
+
+  /* O placeholder fica SEMPRE atrás da foto: se a imagem falhar
+     (404, offline, CSP), o gradiente aparece sozinho — sem handler inline. */
+  function imageHTML(r) {
+    var ph = placeholderHTML(r);
+    if (!r.photo) return ph;
+    return ph + '<img src="' + esc(r.photo) + '" alt="" loading="lazy">';
+  }
+
+  /* ============================ filtro + ordenação ============================ */
+  function visibleRestaurants() {
+    var q = norm(state.query).trim();
+    var terms = q ? q.split(/\s+/) : [];
+
+    var list = window.RESTAURANTS.filter(function (r) {
+      var km = distanceOf(r);
+      if (km != null && km > CFG.NEARBY_RADIUS_KM) return false;
+      if (state.category && r.categories.indexOf(state.category) < 0) return false;
+      if (state.prices.size && !state.prices.has(r.priceLevel)) return false;
+      if (state.features.has("delivery") && !r.delivery) return false;
+      if (state.features.has("reservation") && !r.reservation) return false;
+      if (state.features.has("open") && openStatus(r).open !== true) return false;
+
+      if (terms.length) {
+        var haystack = norm([
+          r.name, r.cuisine, r.description, r.address,
+          r.highlights.join(" "),
+          r.menu.map(function (s) {
+            return s.section + " " + s.items.map(function (i) { return i.name + " " + i.description; }).join(" ");
+          }).join(" ")
+        ].join(" "));
+        var all = terms.every(function (t) { return haystack.indexOf(t) >= 0; });
+        if (!all) return false;
+      }
+      return true;
+    });
+
+    var sorters = {
+      relevancia: function (a, b) {
+        return (b.rating * Math.log10(b.reviews + 10)) - (a.rating * Math.log10(a.reviews + 10));
+      },
+      distancia: function (a, b) { return (distanceOf(a) || 0) - (distanceOf(b) || 0); },
+      avaliacao: function (a, b) { return b.rating - a.rating || b.reviews - a.reviews; },
+      "preco-asc": function (a, b) { return a.avgPerPerson[0] - b.avgPerPerson[0]; },
+      "preco-desc": function (a, b) { return b.avgPerPerson[1] - a.avgPerPerson[1]; }
+    };
+    return list.sort(sorters[state.sort] || sorters.relevancia);
+  }
+
+  /* ============================ card ============================ */
+  function cardHTML(r) {
+    var st = openStatus(r);
+    var dist = distLabel(r);
+    var dishes = cheapestItems(r, 2);
+    var stats = menuStats(r);
+    var fav = state.favorites.has(r.id);
+
+    return '' +
+      '<article class="rcard">' +
+        '<div class="rcard-media">' +
+          '<a class="rcard-media-link" href="#/r/' + esc(r.id) + '" aria-label="' + esc(r.name) + '">' +
+            imageHTML(r) +
+          "</a>" +
+          '<span class="rcard-badge">' + svg("star") + r.rating.toFixed(1).replace(".", ",") +
+            '<span class="count">(' + r.reviews + ")</span></span>" +
+          (st.open === null ? "" :
+            '<span class="rcard-open ' + (st.open ? "is-open" : "is-closed") + '">' + (st.open ? "Aberto" : "Fechado") + "</span>") +
+          '<button class="rcard-fav' + (fav ? " is-on" : "") + '" type="button" data-fav="' + esc(r.id) + '" ' +
+            'aria-label="Favoritar ' + esc(r.name) + '">' + svg("heart") + "</button>" +
+        "</div>" +
+        '<div class="rcard-body">' +
+          '<a class="rcard-title" href="#/r/' + esc(r.id) + '"><h3>' + esc(r.name) + "</h3></a>" +
+          '<div class="rcard-meta">' +
+            "<span>" + esc(r.cuisine) + "</span><span class=\"dot\"></span>" +
+            priceLevelHTML(r.priceLevel) +
+            (dist ? '<span class="dot"></span><span>' + esc(dist) + "</span>" : "") +
+          "</div>" +
+          '<div class="rcard-dishes">' +
+            dishes.map(function (d) {
+              return '<div class="rcard-dish"><span>' + esc(d.name) + "</span><span>" + money(d.price) + "</span></div>";
+            }).join("") +
+          "</div>" +
+          '<div class="tags">' +
+            r.highlights.slice(0, 3).map(function (t) { return '<span class="tag">' + esc(t) + "</span>"; }).join("") +
+          "</div>" +
+          '<div class="rcard-foot">' +
+            '<span class="rcard-avg">Média <b>' + money(r.avgPerPerson[0]) + "–" + money(r.avgPerPerson[1]) + "</b> por pessoa</span>" +
+            "<span>" + stats.count + " itens</span>" +
+          "</div>" +
+        "</div>" +
+      "</article>";
+  }
+
+  /* Card do catálogo aberto: sem cardápio, sem nota, sem preço.
+     O que ele diz de útil é "esse lugar existe aqui". */
+  function osmCardHTML(r) {
+    var st = openStatus(r);
+    var dist = distLabel(r);
+    var fav = state.favorites.has(r.id);
+
+    return '' +
+      '<article class="rcard rcard--open">' +
+        '<div class="rcard-media">' +
+          '<a class="rcard-media-link" href="#/r/' + esc(r.id) + '" aria-label="' + esc(r.name) + '">' +
+            placeholderHTML(r) +
+          "</a>" +
+          '<span class="rcard-src">OpenStreetMap</span>' +
+          (st.open === true ? '<span class="rcard-open is-open">Aberto</span>' :
+           st.open === false ? '<span class="rcard-open is-closed">Fechado</span>' : "") +
+          '<button class="rcard-fav' + (fav ? " is-on" : "") + '" type="button" data-fav="' + esc(r.id) + '" ' +
+            'aria-label="Favoritar ' + esc(r.name) + '">' + svg("heart") + "</button>" +
+        "</div>" +
+        '<div class="rcard-body">' +
+          '<a class="rcard-title" href="#/r/' + esc(r.id) + '"><h3>' + esc(r.name) + "</h3></a>" +
+          '<div class="rcard-meta">' +
+            "<span>" + esc(r.cuisine) + "</span>" +
+            (dist ? '<span class="dot"></span><span>' + esc(dist) + "</span>" : "") +
+          "</div>" +
+          '<div class="rcard-nomenu">' +
+            "<strong>Cardápio ainda não cadastrado</strong>" +
+            "<span>É o seu restaurante? Cadastre o cardápio e apareça com preço.</span>" +
+          "</div>" +
+          (r.highlights.length
+            ? '<div class="tags">' + r.highlights.slice(0, 3).map(function (t) {
+                return '<span class="tag">' + esc(t) + "</span>";
+              }).join("") + "</div>"
+            : "") +
+        "</div>" +
+      "</article>";
+  }
+
+  /* Seção do catálogo aberto, abaixo dos restaurantes com cardápio. */
+  function osmSectionHTML() {
+    if (state.osm.loading) {
+      return '<div class="osm-block"><div class="osm-head">' +
+        "<h3>Procurando restaurantes reais por aqui…</h3>" +
+        "<p>Consultando o OpenStreetMap</p></div></div>";
+    }
+
+    if (state.osm.error) {
+      return '<div class="osm-block"><div class="osm-error">' +
+        "<strong>O OpenStreetMap não respondeu agora</strong>" +
+        "<span>Os servidores públicos do Overpass são mantidos por voluntários e " +
+        "vivem sobrecarregados. Costuma voltar em alguns minutos.</span>" +
+        '<button class="btn btn--ghost" type="button" id="osmRetry">Tentar de novo</button>' +
+      "</div></div>";
+    }
+
+    var list = visibleOsm();
+    if (!list.length) return "";
+
+    return '<div class="osm-block">' +
+      '<div class="osm-head">' +
+        "<h3>Também por perto</h3>" +
+        "<p>" + list.length + " lugares reais do OpenStreetMap — ainda sem cardápio no FoodRadar</p>" +
+      "</div>" +
+      '<div class="grid">' + list.map(osmCardHTML).join("") + "</div>" +
+    "</div>";
+  }
+
+  /* Dois vazios diferentes: "filtro não achou nada" e
+     "a plataforma ainda não cobre essa região". */
+  function emptyHTML() {
+    var anyNearby = window.RESTAURANTS.some(function (r) {
+      var km = distanceOf(r);
+      return km == null || km <= CFG.NEARBY_RADIUS_KM;
+    });
+
+    if (!anyNearby) {
+      var near = nearestCoveredCity();
+      return '<div class="empty"><div class="big">\u{1F5FA}️</div>' +
+        "<h3>Ainda não chegamos em " + esc(state.locLabel.split(",")[0]) + "</h3>" +
+        "<p>Por enquanto os cardápios são de " +
+          Object.keys(window.CITY_INFO).map(function (id) {
+            return esc(window.CITY_INFO[id].label.split(",")[0]);
+          }).join(", ") + ".</p>" +
+        '<button class="btn btn--brand" type="button" data-goto-city="' + esc(near.id) + '">' +
+          "Ver " + countInCity(near.id) + " restaurantes em " + esc(near.label.split(",")[0]) +
+          " · a " + Math.round(near.km) + " km</button></div>";
+    }
+
+    return '<div class="empty"><div class="big">\u{1F50D}</div><h3>Nada encontrado</h3>' +
+      "<p>Tente outro termo ou limpe os filtros.</p>" +
+      '<button class="btn" type="button" id="clearAll">Limpar filtros</button></div>';
+  }
+
+  /* ============================ view: home ============================ */
+  function renderHome() {
+    ensureOsm();
+    var list = visibleRestaurants();
+    var total = window.RESTAURANTS.length;
+    var itemsTotal = window.RESTAURANTS.reduce(function (acc, r) { return acc + menuStats(r).count; }, 0);
+    var filtering = !!(state.query || state.category || state.prices.size || state.features.size);
+
+    app.innerHTML = '' +
+      '<section class="hero"><div class="container">' +
+        "<h1>Descubra restaurantes com <em>cardápio completo</em> e preço na mesa</h1>" +
+        "<p>Chega de “consulte o valor”. Veja o menu inteiro, o preço de cada prato e a média por pessoa antes de sair de casa.</p>" +
+        '<form class="hero-search" id="heroSearch">' +
+          svg("search") +
+          '<input id="heroSearchInput" type="search" placeholder="Buscar por restaurante, prato ou tipo de cozinha" value="' + esc(state.query) + '" autocomplete="off">' +
+          "<button type=\"submit\">Buscar</button>" +
+        "</form>" +
+        '<div class="hero-stats">' +
+          '<div class="hero-stat"><b>' + total + "</b>restaurantes</div>" +
+          '<div class="hero-stat"><b>' + itemsTotal + "</b>pratos com preço</div>" +
+          '<div class="hero-stat"><b>100%</b>cardápios completos</div>' +
+        "</div>" +
+      "</div></section>" +
+
+      '<section class="section"><div class="container">' +
+        '<div class="section-head"><h2>Categorias</h2>' +
+          (state.category ? '<button class="sub" id="clearCat" type="button">Limpar categoria</button>' : "") +
+        "</div>" +
+        '<div class="cats">' +
+          window.CATEGORIES.map(function (c) {
+            return '<button class="cat' + (state.category === c.id ? " is-active" : "") + '" type="button" data-cat="' + esc(c.id) + '">' +
+              '<span class="cat-emoji">' + c.emoji + "</span>" +
+              '<span class="cat-name">' + esc(c.name) + "</span></button>";
+          }).join("") +
+        "</div>" +
+      "</div></section>" +
+
+      '<section class="section" style="padding-top:6px"><div class="container">' +
+        '<div class="section-head">' +
+          "<h2>" + (filtering ? "Resultados"
+            : state.locSource === "gps" ? "Populares perto de você"
+            : "Populares em " + esc(state.locLabel.split(",")[0])) + "</h2>" +
+          '<span class="sub">' + list.length + (list.length === 1 ? " lugar" : " lugares") + " · " + esc(state.locLabel) + "</span>" +
+        "</div>" +
+
+        '<div class="filters">' +
+          '<button class="chip' + (state.features.has("open") ? " is-active" : "") + '" type="button" data-feat="open">Aberto agora</button>' +
+          '<button class="chip' + (state.features.has("delivery") ? " is-active" : "") + '" type="button" data-feat="delivery">Delivery</button>' +
+          '<button class="chip' + (state.features.has("reservation") ? " is-active" : "") + '" type="button" data-feat="reservation">Aceita reserva</button>' +
+          [1, 2, 3, 4].map(function (p) {
+            return '<button class="chip' + (state.prices.has(p) ? " is-active" : "") + '" type="button" data-price="' + p + '">' +
+              new Array(p + 1).join("$") + "</button>";
+          }).join("") +
+          '<span class="filters-spacer"></span>' +
+          '<span class="select-wrap"><select id="sortSel" aria-label="Ordenar por">' +
+            '<option value="relevancia">Relevância</option>' +
+            '<option value="distancia">Mais perto</option>' +
+            '<option value="avaliacao">Melhor avaliados</option>' +
+            '<option value="preco-asc">Menor preço</option>' +
+            '<option value="preco-desc">Maior preço</option>' +
+          "</select>" + svg("chevron") + "</span>" +
+        "</div>" +
+
+        (list.length
+          ? '<div class="grid">' + list.map(cardHTML).join("") + "</div>"
+          : (state.osm.loading || state.osm.error || visibleOsm().length)
+            ? '<div class="osm-note">Nenhum restaurante com cardápio cadastrado em ' +
+              esc(state.locLabel.split(",")[0]) + " ainda — mas a região existe no mapa:</div>"
+            : emptyHTML()) +
+
+        osmSectionHTML() +
+      "</div></section>";
+
+    var sel = document.getElementById("sortSel");
+    if (sel) sel.value = state.sort;
+    window.scrollTo(0, 0);
+  }
+
+  /* Painel que substitui o cardápio num restaurante vindo do OSM.
+     É a porta de entrada do lado B da plataforma: o dono cadastra. */
+  function noMenuPanelHTML(r) {
+    return '<section class="panel nomenu-panel">' +
+      '<div class="nomenu-ico">' + svg("wallet", "icon") + "</div>" +
+      "<h2>Cardápio ainda não cadastrado</h2>" +
+      "<p>Sabemos que o <strong>" + esc(r.name) + "</strong> existe e onde ele fica — " +
+      "essa informação vem do OpenStreetMap, um mapa aberto mantido por voluntários. " +
+      "O que ainda falta é o que o FoodRadar faz de diferente: cada prato com o preço na tela.</p>" +
+      '<div class="nomenu-cta">' +
+        '<button class="btn btn--brand" type="button" id="claimBtn">Sou o dono, quero cadastrar</button>' +
+        (r.website
+          ? '<a class="btn btn--ghost" href="' + esc(r.website) + '" target="_blank" rel="noopener noreferrer">Ver site do restaurante</a>'
+          : "") +
+      "</div>" +
+    "</section>";
+  }
+
+  /* ============================ view: restaurante ============================ */
+  function renderRestaurant(id) {
+    var notFound = '<div class="container" style="padding:80px 0"><div class="empty">' +
+      '<div class="big">\u{1F37D}</div><h3>Restaurante não encontrado</h3>' +
+      '<p>O link pode estar desatualizado.</p><a class="btn" href="#/">Voltar para a busca</a></div></div>';
+
+    var base = findRestaurant(id);
+
+    if (!base) {
+      // Link direto para um restaurante do OSM: busca o elemento pelo id.
+      if (/^osm-/.test(id)) {
+        app.innerHTML = '<div class="container" style="padding:80px 0"><div class="empty">' +
+          '<div class="big">\u{1F5FA}️</div><h3>Carregando…</h3>' +
+          "<p>Buscando esse lugar no OpenStreetMap.</p></div></div>";
+
+        window.Osm.fetchById(id).then(function (r) {
+          state.osm.list = state.osm.list.concat([r]);
+          if (currentRoute().id === id) renderRestaurant(id);
+        }).catch(function () {
+          if (currentRoute().id === id) app.innerHTML = notFound;
+        });
+        return;
+      }
+      app.innerHTML = notFound;
+      return;
+    }
+
+    var isOsm = base.source === "osm";
+    var r = merged(base);
+    var st = r.openNow != null
+      ? { open: r.openNow, label: r.openNow ? "Aberto agora" : "Fechado agora" }
+      : openStatus(r);
+    var dist = distLabel(r);
+    var stats = menuStats(r);
+    var fav = state.favorites.has(r.id);
+
+    app.innerHTML = '' +
+      '<div class="rhero">' +
+        '<a class="rhero-back" href="#/">' + svg("back") + "Voltar</a>" +
+        imageHTML(r) +
+      "</div>" +
+
+      '<div class="container rwrap">' +
+        '<header class="rhead">' +
+          '<div class="rhead-main">' +
+            "<h1>" + esc(r.name) + "</h1>" +
+            '<div class="rhead-meta">' +
+              (r.rating != null
+                ? starsHTML(r.rating) +
+                  '<span class="rating-num">' + r.rating.toFixed(1).replace(".", ",") + "</span>" +
+                  '<span class="rating-count">(' + r.reviews + ")</span>" +
+                  '<span class="dot"></span>'
+                : '<span class="src-badge">' + svg("pin") + "OpenStreetMap</span><span class=\"dot\"></span>") +
+              "<span>" + esc(r.cuisine) + "</span>" +
+              (r.priceLevel ? '<span class="dot"></span>' + priceLevelHTML(r.priceLevel) : "") +
+            "</div>" +
+            (r.description ? '<p class="rhead-desc">' + esc(r.description) + "</p>" : "") +
+            '<div class="tags">' +
+              r.highlights.map(function (t) { return '<span class="tag">' + esc(t) + "</span>"; }).join("") +
+            "</div>" +
+          "</div>" +
+          '<div class="rhead-actions">' +
+            '<button class="icon-btn" type="button" id="shareBtn" aria-label="Compartilhar">' + svg("share") + "</button>" +
+            '<button class="icon-btn' + (fav ? " is-on" : "") + '" type="button" data-fav="' + esc(r.id) + '" aria-label="Favoritar">' + svg("heart") + "</button>" +
+          "</div>" +
+        "</header>" +
+
+        '<div class="rbody">' +
+          (isOsm ? noMenuPanelHTML(r) : '<section class="panel">' +
+            "<h2>Cardápio</h2>" +
+            '<span class="sub" style="color:var(--muted);font-size:13.5px">' + stats.count +
+              " itens · a partir de " + money(stats.min) + "</span>" +
+            '<nav class="menu-nav">' +
+              r.menu.map(function (s, i) {
+                return '<a href="#sec-' + i + '" data-sec="' + i + '">' + esc(s.section) + "</a>";
+              }).join("") +
+            "</nav>" +
+            r.menu.map(function (s, i) {
+              return '<div class="msection" id="sec-' + i + '">' +
+                '<div class="msection-head"><h3>' + esc(s.section) + "</h3>" +
+                  '<span class="count">(' + s.items.length + (s.items.length === 1 ? " opção" : " opções") + ")</span></div>" +
+                s.items.map(function (it) {
+                  return '<div class="mitem"><div class="mitem-main">' +
+                      '<div class="mitem-name"><strong>' + esc(it.name) + "</strong>" +
+                        (it.popular ? '<span class="pill">Popular</span>' : "") +
+                        (it.veg ? '<span class="pill pill--veg">Vegetariano</span>' : "") +
+                      "</div>" +
+                      '<p class="mitem-desc">' + esc(it.description) + "</p>" +
+                    "</div>" +
+                    '<div class="mitem-price">' + money(it.price) + "</div>" +
+                  "</div>";
+                }).join("") +
+              "</div>";
+            }).join("") +
+          "</section>") +
+
+          '<aside class="panel panel--flush">' +
+            '<div class="side-block">' +
+              '<div class="map-box" id="mapBox"></div>' +
+              '<h3 class="side-title">' + svg("pin") + "Localização</h3>" +
+              (r.address
+                ? "<p>" + esc(r.address) + "</p>"
+                : '<p class="side-sub">Endereço não informado no OpenStreetMap</p>') +
+              (dist ? '<p class="side-sub">' + esc(dist) + "</p>" : "") +
+            "</div>" +
+
+            '<div class="side-block">' +
+              '<h3 class="side-title">' + svg("clock") + "Horário de atendimento</h3>" +
+              (r.hours
+                ? '<span class="status ' + (st.open ? "open" : "closed") + '">' + esc(st.label) + "</span>" +
+                  '<div id="hoursWrap" hidden>' + hoursListHTML(r) + "</div>" +
+                  '<button class="hours-toggle" type="button" id="hoursToggle">Ver semana completa</button>'
+                : r.hoursRaw
+                  ? '<p>' + esc(r.hoursRaw) + '</p><p class="side-sub">Como está registrado no OpenStreetMap</p>'
+                  : '<p class="side-sub">Não informado — confirme com o restaurante</p>') +
+            "</div>" +
+
+            (r.avgPerPerson
+              ? '<div class="side-block">' +
+                  '<h3 class="side-title">' + svg("wallet") + "Faixa de preço</h3>" +
+                  '<div class="avg-row"><span class="big">' + money(r.avgPerPerson[0]) + " – " + money(r.avgPerPerson[1]) + "</span></div>" +
+                  '<p class="side-sub">Média por pessoa, sem bebidas alcoólicas</p>' +
+                "</div>"
+              : "") +
+
+            (r.facilities.length
+              ? '<div class="side-block">' +
+                  '<h3 class="side-title">' + svg("sparkle") + "Facilidades</h3>" +
+                  '<div class="facilities">' +
+                    r.facilities.map(function (f) {
+                      var meta = window.FACILITIES[f];
+                      if (!meta) return "";
+                      return '<span class="fac">' + svg(meta.icon) + esc(meta.label) + "</span>";
+                    }).join("") +
+                  "</div>" +
+                "</div>"
+              : "") +
+
+            '<div class="side-cta">' +
+              '<a class="btn btn--brand" href="' + esc(window.Maps.directionsUrl(r)) + '" target="_blank" rel="noopener">' +
+                svg("route") + "Como chegar</a>" +
+              (r.phone ? '<a class="btn btn--ghost" href="tel:' + esc(r.phone.replace(/\D/g, "")) + '">' + svg("phone") + esc(r.phone) + "</a>" : "") +
+            "</div>" +
+          "</aside>" +
+        "</div>" +
+      "</div>";
+
+    window.scrollTo(0, 0);
+    window.Maps.renderMap(document.getElementById("mapBox"), r.coords, r.name);
+
+    // Enriquecimento assíncrono com o Google Places (se houver API key)
+    if (!isOsm && window.Maps.hasKey() && !state.googleCache[base.id]) {
+      window.Maps.enrich(base).then(function (data) {
+        if (!data) return;
+        state.googleCache[base.id] = data;
+        if (currentRoute().id === base.id) renderRestaurant(base.id);
+      });
+    }
+  }
+
+  /* ============================ router ============================ */
+  function currentRoute() {
+    var h = location.hash.replace(/^#/, "");
+    // Permite semear a rota inicial (deep link renderizado sem hash).
+    if (!h && window.FR_INITIAL_ROUTE) return window.FR_INITIAL_ROUTE;
+    var m = h.match(/^\/r\/([\w-]+)/);
+    return m ? { name: "restaurant", id: m[1] } : { name: "home" };
+  }
+
+  function render() {
+    var route = currentRoute();
+    if (route.name === "restaurant") renderRestaurant(route.id);
+    else renderHome();
+  }
+
+  /* ============================ eventos ============================ */
+  document.addEventListener("click", function (e) {
+    var el;
+
+    if ((el = e.target.closest("[data-cat]"))) {
+      var cat = el.getAttribute("data-cat");
+      state.category = state.category === cat ? null : cat;
+      return render();
+    }
+    if (e.target.closest("#clearCat")) { state.category = null; return render(); }
+
+    if ((el = e.target.closest("[data-feat]"))) {
+      var f = el.getAttribute("data-feat");
+      state.features.has(f) ? state.features.delete(f) : state.features.add(f);
+      return render();
+    }
+    if ((el = e.target.closest("[data-price]"))) {
+      var p = parseInt(el.getAttribute("data-price"), 10);
+      state.prices.has(p) ? state.prices.delete(p) : state.prices.add(p);
+      return render();
+    }
+    if ((el = e.target.closest("[data-goto-city]"))) {
+      var info = window.CITY_INFO[el.getAttribute("data-goto-city")];
+      if (info) setLocation(info.coords, info.label, "place");
+      return;
+    }
+    if (e.target.closest("#clearAll")) {
+      state.query = ""; state.category = null; state.prices.clear(); state.features.clear();
+      document.getElementById("headerSearchInput").value = "";
+      return render();
+    }
+
+    if ((el = e.target.closest("[data-fav]"))) {
+      e.preventDefault();
+      var id = el.getAttribute("data-fav");
+      if (state.favorites.has(id)) { state.favorites.delete(id); toast("Removido dos favoritos"); }
+      else { state.favorites.add(id); toast("Salvo nos favoritos"); }
+      saveFavorites();
+      el.classList.toggle("is-on");
+      return;
+    }
+
+    if (e.target.closest("#hoursToggle")) {
+      var wrap = document.getElementById("hoursWrap");
+      var btn = document.getElementById("hoursToggle");
+      wrap.hidden = !wrap.hidden;
+      btn.textContent = wrap.hidden ? "Ver semana completa" : "Ocultar horários";
+      return;
+    }
+
+    if (e.target.closest("#osmRetry")) {
+      ensureOsm(true);
+      renderHome();
+      return;
+    }
+
+    if (e.target.closest("#claimBtn")) {
+      toast("Protótipo: aqui entraria o cadastro do restaurante");
+      return;
+    }
+
+    if (e.target.closest("#shareBtn")) {
+      var url = location.href;
+      if (navigator.share) {
+        navigator.share({ title: document.title, url: url }).catch(function () {});
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function () { toast("Link copiado"); });
+      }
+      return;
+    }
+
+    // âncoras internas do cardápio
+    if ((el = e.target.closest("[data-sec]"))) {
+      e.preventDefault();
+      var target = document.getElementById("sec-" + el.getAttribute("data-sec"));
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+
+  document.addEventListener("input", function (e) {
+    if (e.target.id === "headerSearchInput" || e.target.id === "heroSearchInput") {
+      state.query = e.target.value;
+      if (currentRoute().name !== "home") { location.hash = "#/"; return; }
+      renderHome();
+      var focusId = e.target.id;
+      var again = document.getElementById(focusId);
+      if (again) {
+        again.focus();
+        again.setSelectionRange(again.value.length, again.value.length);
+      }
+      var header = document.getElementById("headerSearchInput");
+      if (header && focusId !== "headerSearchInput") header.value = state.query;
+    }
+  });
+
+  document.addEventListener("submit", function (e) {
+    if (e.target.id === "heroSearch" || e.target.id === "headerSearchForm") {
+      e.preventDefault();
+      if (currentRoute().name !== "home") location.hash = "#/";
+      else renderHome();
+    }
+  });
+
+  document.addEventListener("change", function (e) {
+    if (e.target.id === "sortSel") { state.sort = e.target.value; renderHome(); }
+  });
+
+  /* ============================================================
+     Tema claro / escuro
+     Sem escolha salva, segue o sistema (o CSS resolve sozinho via
+     prefers-color-scheme). O botão grava uma escolha explícita, que
+     passa a valer mesmo se o sistema mudar depois.
+     ============================================================ */
+  var THEME_KEY = "foodradar:theme";
+
+  function storedTheme() {
+    try {
+      var t = localStorage.getItem(THEME_KEY);
+      return (t === "dark" || t === "light") ? t : null;
+    } catch (e) { return null; }
+  }
+
+  function effectiveTheme() {
+    var chosen = storedTheme();
+    if (chosen) return chosen;
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark" : "light";
+  }
+
+  document.getElementById("themeBtn").addEventListener("click", function () {
+    var next = effectiveTheme() === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    try { localStorage.setItem(THEME_KEY, next); } catch (e) { /* modo privado */ }
+    toast(next === "dark" ? "Tema escuro" : "Tema claro");
+  });
+
+  /* ============================================================
+     Seletor de localização
+     Duas formas de escolher o ponto de partida:
+       1. GPS do navegador ("estou aqui")
+       2. Busca com sugestões ("quero ver o Rio")
+     ============================================================ */
+  var locChip  = document.getElementById("locChip");
+  var locPop   = document.getElementById("locPop");
+  var locInput = document.getElementById("locInput");
+  var locList  = document.getElementById("locList");
+  var locHint  = document.getElementById("locHint");
+  var locLabel = document.getElementById("locLabel");
+
+  var suggestions = [];      // sugestões atualmente na tela
+  var searchTimer = null;
+  var searchSeq = 0;         // descarta respostas fora de ordem
+
+  function openLoc() {
+    locPop.hidden = false;
+    locChip.setAttribute("aria-expanded", "true");
+    locInput.value = "";
+    renderSuggestions(coveredCitySuggestions());
+    locHint.hidden = window.Maps.hasKey();
+    locHint.textContent = window.Maps.hasKey() ? "" :
+      "Sem chave do Google Maps: a busca usa a lista de cidades de js/data.js.";
+    locInput.focus();
+  }
+
+  function closeLoc() {
+    if (locPop.hidden) return;
+    locPop.hidden = true;
+    locChip.setAttribute("aria-expanded", "false");
+  }
+
+  /* Atalho: as cidades que já têm cardápio cadastrado. */
+  function coveredCitySuggestions() {
+    return Object.keys(window.CITY_INFO).map(function (id) {
+      var c = window.CITY_INFO[id];
+      var parts = c.label.split(", ");
+      return {
+        id: "city:" + id,
+        main: parts[0],
+        secondary: (parts[1] || "") + ", Brasil",
+        coords: c.coords,
+        count: countInCity(id)
+      };
+    });
+  }
+
+  function renderSuggestions(items, loading) {
+    suggestions = items || [];
+
+    if (loading) {
+      locList.innerHTML = '<li class="loc-empty">Buscando…</li>';
+      return;
+    }
+    if (!suggestions.length) {
+      locList.innerHTML = '<li class="loc-empty">Nenhum lugar encontrado</li>';
+      return;
+    }
+
+    locList.innerHTML = suggestions.map(function (s, i) {
+      return "<li>" +
+        '<button type="button" data-loc-pick="' + i + '">' +
+          svg("pin") +
+          '<span class="loc-opt-txt">' +
+            '<span class="loc-opt-main">' + esc(s.main) + "</span>" +
+            (s.secondary ? '<span class="loc-opt-sub">' + esc(s.secondary) + "</span>" : "") +
+          "</span>" +
+          (s.count ? '<span class="loc-opt-count">' + s.count + " lugares</span>" : "") +
+        "</button></li>";
+    }).join("");
+  }
+
+  function setLocation(coords, label, source) {
+    state.userLoc = coords;
+    state.locLabel = label;
+    state.locSource = source;
+    locLabel.textContent = label;
+    if (source === "gps") state.sort = "distancia";
+    closeLoc();
+    if (currentRoute().name !== "home") location.hash = "#/";
+    else render();
+  }
+
+  locChip.addEventListener("click", function () {
+    if (locPop.hidden) openLoc(); else closeLoc();
+  });
+
+  /* GPS */
+  document.getElementById("locGps").addEventListener("click", function () {
+    var btn = this;
+    btn.disabled = true;
+    locLabel.textContent = "Localizando…";
+
+    window.Maps.getUserLocation().then(function (coords) {
+      return window.Maps.reverseGeocode(coords)
+        .catch(function () { return null; })
+        .then(function (name) { return { coords: coords, name: name }; });
+    }).then(function (res) {
+      btn.disabled = false;
+      setLocation(res.coords, res.name || "Perto de você", "gps");
+      toast("Distâncias recalculadas a partir de onde você está");
+    }).catch(function () {
+      btn.disabled = false;
+      locLabel.textContent = state.locLabel;
+      toast("Não consegui acessar sua localização");
+    });
+  });
+
+  /* digitação com debounce */
+  locInput.addEventListener("input", function () {
+    var value = this.value.trim();
+    clearTimeout(searchTimer);
+
+    if (!value) { renderSuggestions(coveredCitySuggestions()); return; }
+
+    var seq = ++searchSeq;
+    renderSuggestions(null, true);
+    searchTimer = setTimeout(function () {
+      window.Maps.searchPlaces(value).then(function (items) {
+        if (seq !== searchSeq) return;         // chegou atrasada, ignora
+        renderSuggestions(items);
+      });
+    }, 220);
+  });
+
+  locInput.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") { closeLoc(); locChip.focus(); }
+    if (e.key === "Enter") {
+      e.preventDefault();
+      var first = locList.querySelector("[data-loc-pick]");
+      if (first) first.click();
+    }
+  });
+
+  /* escolha de uma sugestão */
+  locList.addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-loc-pick]");
+    if (!btn) return;
+
+    var s = suggestions[parseInt(btn.getAttribute("data-loc-pick"), 10)];
+    if (!s) return;
+
+    if (s.coords) {
+      var uf = (s.secondary || "").split(",")[0].trim();
+      setLocation(s.coords, uf ? s.main + ", " + uf : s.main, "place");
+      return;
+    }
+
+    btn.disabled = true;
+    window.Maps.resolvePlace(s).then(function (place) {
+      setLocation(place.coords, place.label, "place");
+    }).catch(function () {
+      btn.disabled = false;
+      toast("Não consegui localizar esse lugar");
+    });
+  });
+
+  /* fechar ao clicar fora ou apertar Esc */
+  document.addEventListener("click", function (e) {
+    if (!locPop.hidden && !e.target.closest(".loc-wrap")) closeLoc();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeLoc();
+  });
+
+  window.addEventListener("hashchange", render);
+  render();
+})();
+
+</script>
+</body>
+</html>
